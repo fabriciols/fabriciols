@@ -66,9 +66,11 @@ FILE_EXCLUDE = [
 USER_LIST = [
 	[ "usuario"    , "Nome Completo"              , "Tempo de experiencia",         	   "Cargo"                      ],
 	[ "fabriciols" , "Fabricio Lopes de Souza"    , "Menos de 3 anos de experiencia",   "Analista/Engenheiro Junior" ],
+	[ "kemmel"     , "Kemmel Scarpellini"         , "Menos de 3 anos de experiencia",   "Analista/Engenheiro Junior" ],
 	[ "dpsilva"    , "Danilo Penin"               , "Menos de 3 anos de experiencia",   "Analista/Engenheiro Junior" ],
 	[ "mizutani"   , "Thiago Mizutani"            , "Menos de 3 anos de experiencia",	"Analista/Engenheiro Junior" ],
 	[ "mftoledo"   , "Marcelo Ferrari Toledo"     , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Especialista" ],
+	[ "fabiobs"    , "Fabio Brochado da Silva"    , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Especialista" ],
 	[ "rosanab"    , "Rosana Bergamasco Kamimura" , "Mais de 10 anos de experiencia",   "Analista/Engenheiro Especialista" ],
 	[ "claudiol"   , "Claudio Ling"               , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Especialista" ],
 	[ "rmoroz"     , "Raphael Moroz Mazzaro"      , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Senior" ],
@@ -133,6 +135,21 @@ PASSWORD = 'fabriciols'
 
 LABEL_FINAL = -1
 	
+
+def checkActionEnd(Action, start):
+	if Action.startswith('Checked in'):
+		return 1
+
+	if Action.startswith('Added'):
+		return 1
+
+	if Action.startswith('Created'):
+		return 1
+
+	if Action.startswith('Label') and LABEL_FINAL is not -1 and start is 2:
+		return 1
+
+	return 0
 
 def fail(msg):
 	out = sys.stderr.write
@@ -231,6 +248,7 @@ def fcompare(f1name, f2name, browser=0):
 def GetFilesByBug(bug, username):
 
 	full_changed_list = []
+	user_changed_list = []
 	
 	for dir in DIR_LIST:
 
@@ -275,7 +293,6 @@ def GetFilesByBug(bug, username):
 				#print v.Username.upper(), username.upper()
 				if username.upper() != "NULL":
 					if v.Username.upper() != username.upper():
-						print "%s != %s" %(v.Username, username)
 						continue
 
 				# Ajusta pra quando adicionou o arquivo
@@ -284,27 +301,40 @@ def GetFilesByBug(bug, username):
 				else:
 					full_name = "%s/%s" %(full_dir, v.VSSItem.Name)
 
+				list = [ full_name, v.Username ]
+
 				# Se ocorreu 2 chek-in no mesmo bug, evita duplicacao
-				if full_changed_list.count(full_name) is 0:
+				if isOnList(full_name, full_changed_list) is 0:
 					print "|-- %s" %os.path.basename(full_name)
-					full_changed_list.append(full_name)
+					full_changed_list.append(list)
 
 	return full_changed_list
 
+def isOnList(file_name, full_changed_list):
+	for file, user in full_changed_list:
+		if file == file_name:
+			return 1
+
+	return 0
 
 def get_USER(username):
+
+	username = username.lower()
+
 	for user in USER_LIST:
 		if user[0] == username:
 			return user
+	print username
 	return USER_LIST[0]
 
 def do_RRT(bug, username, browser=0):
 
-		user = get_USER(username)
 
 		print "|--- Procurando arquivos alterados ---|"
 		print "|--- bug: %s usuario: %s" %(bug, username)
-		file_list = GetFilesByBug(bug, username)
+		list = GetFilesByBug(bug, username)
+		file_list = list[0]
+		user_list = list[1]
 
 		if len(file_list) is 0:
 			print "Sem arquivos alterados para o bug"
@@ -316,7 +346,8 @@ def do_RRT(bug, username, browser=0):
 		if os.path.exists(file_out_name):
 			os.remove(file_out_name)
 	
-		for full_dir in file_list:
+		for full_dir, user_diff in list:
+			#print "-> %s - %s" %(full_dir, user_diff)
 			#full_dir = "%s/%s" %(DIR_ROOT, file)
 
 			#print "------ Procurando arquivo : %s -----" %full_dir
@@ -351,11 +382,12 @@ def do_RRT(bug, username, browser=0):
 			vers = ss_dir.Versions
 			ss_file = SSafe.VSSItem(full_dir)
 			vers = ss_file.Versions
+			last_v = vers[0]
 
 			for v in vers:
 				label_end = 0
 
-				print "|%s| - |%s| - |%s| - |%d|" %(v.VersionNumber, v.Action, v.Label, start)
+				#print "|%s| - |%s| - |%s| - |%d|" %(v.VersionNumber, v.Action, v.Label, start)
 
 				if start is 0:
 
@@ -369,22 +401,20 @@ def do_RRT(bug, username, browser=0):
 
 				else:
 
-					# Se foi passado o parametro de um label especifico para o intervalo
-					# so para se encontrar ele
-					if LABEL_FINAL is not -1:
-						if v.Action.find(LABEL_FINAL) is -1:
-							label_end = 1
-
 					# Se ja comecei, e encontrei um label, finaliza o processo
 					if v.Action.startswith('Labeled'):
-						if start is 1:
-
+						if start is 1 and LABEL_FINAL is -1:
+							break
 						else:
 							label = 1
 
+					if v.Action.startswith('Checked in'):
+						#print "last_v = %s | %s" %(v.VersionNumber, v.Label)
+						last_v = v
+
 					# Achamos a versao alterada pelo bug
 					# Salvamos o VSSITEM e o numero da versao para procurar a versao anterior
-					if v.Action.startswith('Checked in') or v.Action.startswith('Added') or v.Action.startswith('Created'):
+					if checkActionEnd(v.Action, start) is 1:
 						if start is 1:
 							vssitem_list.append(v)
 							start = 2
@@ -397,6 +427,18 @@ def do_RRT(bug, username, browser=0):
 							#print "Versao: %-3d (Alterada)" %v.VersionNumber,
 							continue
 						elif start is 2:
+
+							# Se foi passado o parametro de um label especifico para o intervalo
+							# so para se encontrar ele
+							if LABEL_FINAL is not -1:
+								#print "Verifica LABEL_FINAL = %d" %v.Action.find(LABEL_FINAL)
+								#print v.Action, v.Label, v,VersionNumber, start
+								if v.Action.find(LABEL_FINAL) is -1:
+									continue
+								else:
+									start = 3
+									continue
+
 							#print "%-3d (Base)" %v.VersionNumber,
 
 							if len(vssitem_list) is 2:
@@ -405,15 +447,22 @@ def do_RRT(bug, username, browser=0):
 								vssitem_list.append(v)
 
 							if label is 1:
-								# Se foi passado o parametro de um label especifico para o intervalo
-								# so para se encontrar ele
-								if LABEL_FINAL is not -1:
-#									print v.Action, v.Label, v,VersionNumber, start
-									if v.Action.find(LABEL_FINAL) is -1:
-										continue
 								break
 							else:
 								continue
+
+						elif start is 3:
+
+							if checkActionEnd(v.Action, start) is 1:
+								if len(vssitem_list) is 2:
+									vssitem_list[1] = v
+								else:
+									vssitem_list.append(v)
+
+								if label is 1:
+									break
+								else:
+									continue
 
 			# Como temos as 2 versoes, efetuamos o get delas
 			get_name = "%s_%s" %(os.path.basename(sys.argv[0]), os.path.basename(full_dir))
@@ -432,9 +481,9 @@ def do_RRT(bug, username, browser=0):
 				get_item.VSSItem.Get(Local=get_full_name)
 				full_names.append(get_full_name)
 			
-			#print full_names
+			print "+ Diff: %-12s |%-3d - %3d|" %(os.path.basename(full_dir), vssitem_list[0].VersionNumber, vssitem_list[1].VersionNumber)
 
-			print "+ Diff: %s |%d - %d| " %(os.path.basename(full_dir), vssitem_list[0].VersionNumber, vssitem_list[1].VersionNumber)
+			user = get_USER(user_diff)
 
 			changed = fcompare(full_names[0], full_names[1], browser=browser)
 
@@ -492,12 +541,13 @@ def usage():
 	print "USUARIO - Usuario que realizou a alteracao ( 0 para todos )"
 	print "BASE    - Base que deseja analizar ( nao precisa ser o nome completo )"
 	print "PROJETO - Numero do projeto que deseja usar (somente pode ser usado em conjunto com a opcao BASE)"
+	print "-L LABEL- Especifica um label de termino, nao terminando no primeiro label encontrado"
 	print "-b      - Abre um browser com o DIFF, dando a opcao de entrar manualmente o numer de linhas"
 	print "-m MOD  - Modulo a ser revisado (Atualmente os suportados sao APL/USG/SERVER/RET) Default: APL"
 	print "caso a opcao -m seja usada com o parametro SERVER/RET, ela deve ser precedida com o nome do SUBMODULO"
 	print "Exemplo: -m SERVER grapar	ou -m RET cryto"
 	print "-u USER - Usuario para logar no SSAFE"
-	print "-u PASS - Senha para logar no SSAFE"
+	print "-p PASS - Senha para logar no SSAFE"
 
 if __name__ == '__main__':
 
@@ -582,7 +632,7 @@ if __name__ == '__main__':
 		print "|-- Procurando linhas de projeto"
 		for node in ss_dir.Items:
 			if node.Name.upper() != "documento".upper():
-				print "|-- %3d | %s" %(i, node.Name)
+				print "|-- %-3d | %s" %(i, node.Name)
 				i += 1
 
 		if i is not 2:
