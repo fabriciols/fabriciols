@@ -602,7 +602,7 @@ if __name__ == '__main__':
 	if module is 0:
 		module = "APL"
 
-	file_out_name = "%s_%s.txt" %(sys.argv[1], module)
+	file_out_name = "%s_%s" %(sys.argv[1], module)
 
 	# Define as constantes por modulo
 	BASE_LIST = ALL_BASE_LIST[module.upper()]
@@ -611,7 +611,9 @@ if __name__ == '__main__':
 
 	if SUBMODULE is not 0:
 		ROOT_DIR = "%s/%s" %(ROOT_DIR, SUBMODULE)
-		file_out_name = "%s_%s_%s.txt" %(sys.argv[1], module, SUBMODULE)
+		file_out_name = "%s_%s" %(SUBMODULE)
+
+	file_out_name = "%s.txt" %file_out_name
 
 	if len_args is 3:
 		base_num = select_base()
@@ -623,9 +625,13 @@ if __name__ == '__main__':
 
 	if len_args is 5:
 
+		projeto = sys.argv[4]
+
+		file_out_name = "%s_%s" %(projeto, file_out_name)
+
 		opened = openBase(base_num)
 
-		ss_dir = SSafe.VSSItem("$/%s" %(sys.argv[4]))
+		ss_dir = SSafe.VSSItem("$/%s" %(projeto))
 
 		# Varremos as linhas de projeto
 		i = 1
