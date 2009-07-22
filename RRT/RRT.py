@@ -49,17 +49,22 @@ import webbrowser
 # VERSAO="0.91"
 # DATA="15/07/09"
 # Adicionando os modulos RETAGUARDA e SERVER
-VERSAO="0.92"
-DATA="15/07/09"
+# VERSAO="0.92"
+# DATA="15/07/09"
 # Adicionando o fonte no GOOGLE CODE
+VERSAO="0.93"
+DATA="21/07/09"
+# Contorno pro problema de dar pau quando for dar DIFF de diretorio
+# Isso só ocorre se no label for incluído tambem um diretório
 
 FILE_EXCLUDE = [
 	".MAK",
 	".MAP",
 	".DOC",
-   ".SO",
-	".A",
+   ".SO" ,
 	"TAGS",
+	"DLL" ,
+	"DSW" ,
 ]
 
 
@@ -265,6 +270,8 @@ def GetFilesByBug(bug, username):
 
 		for v in vers:
 
+			#print "Action [%s] Label [%s] Ver[%s] start[%d]" %(v.Action, v.Label, v.VersionNumber, start)
+
 			#print v.Action
 
 			if start is 0:
@@ -294,6 +301,11 @@ def GetFilesByBug(bug, username):
 				if username.upper() != "NULL":
 					if v.Username.upper() != username.upper():
 						continue
+
+				# Verifica se realmente é um arquivo
+				#print "Action [%50s] Label [%10s] Ver[%10s] type[%d] start[%d]" %(v.Action, v.Label, v.VersionNumber, v.VSSItem.Type, start)
+				#if v.VSSItem.Type is not 1:
+				#continue
 
 				# Ajusta pra quando adicionou o arquivo
 				if v.Action.startswith('Added'):
@@ -328,7 +340,6 @@ def get_USER(username):
 	return USER_LIST[0]
 
 def do_RRT(bug, username, browser=0):
-
 
 		print "|--- Procurando arquivos alterados ---|"
 		print "|--- bug: %s usuario: %s" %(bug, username)
@@ -375,7 +386,8 @@ def do_RRT(bug, username, browser=0):
 			try:
 				ss_dir = SSafe.VSSItem(full_dir)
 			except:
-				print "Arquivo fonte: %s nao encontrado" 
+				print "! Diff: Nao encontrado - %s" %os.path.basename(full_dir)
+				continue
 
 			#print "%-30s -" %full_dir.replace(DIR_ROOT,""),
 
@@ -481,7 +493,8 @@ def do_RRT(bug, username, browser=0):
 				get_item.VSSItem.Get(Local=get_full_name)
 				full_names.append(get_full_name)
 			
-			print "+ Diff: %-12s |%-3d - %3d|" %(os.path.basename(full_dir), vssitem_list[0].VersionNumber, vssitem_list[1].VersionNumber)
+			print "+ Diff: |%-2d-%2d| %-12s" %(vssitem_list[0].VersionNumber, vssitem_list[1].VersionNumber, os.path.basename(full_dir))
+
 
 			user = get_USER(user_diff)
 
@@ -611,7 +624,7 @@ if __name__ == '__main__':
 
 	if SUBMODULE is not 0:
 		ROOT_DIR = "%s/%s" %(ROOT_DIR, SUBMODULE)
-		file_out_name = "%s_%s" %(SUBMODULE)
+		file_out_name = "%s_%s" %(file_out_name, SUBMODULE)
 
 	file_out_name = "%s.txt" %file_out_name
 
