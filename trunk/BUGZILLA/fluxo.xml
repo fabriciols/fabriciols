@@ -1,0 +1,36 @@
+<fluxo_bugzilla>
+	<!-- Estrutura do fluxo do bugzilla: a partir de um OS, qual transicoes posso fazer ? !-->
+	<lista_de_os>
+		<OS name="Em Analise">
+			<TR id="10"/>
+			<TR id="7" />
+		</OS>
+		<OS name="Em execucao">
+			<TR id="19"/>
+		</OS>
+	</lista_de_os>
+
+	<!-- Acoes que uma transicao pode gerar !-->
+	<transicoes>
+		<TR id="10">
+			<ATTACH>AIS</ATTACH>
+			<COMMENT_1>Analise Finalizada.</COMMENT_1>
+			<TO>GPJ</TO>
+			<OS>Analizado</OS>
+		</TR>
+
+		<TR id="7">
+			<COMMENT_1>user_input</COMMENT_1>
+			<TO>user_input</TO>
+		</TR>
+
+		<TR id="19">
+			<COMMENT_1>Finalizar execucao.</COMMENT_1>
+			<COMMENT_2>Fontes Alterados:  </COMMENT_2>
+			<COMMENT_3>print_changed_files</COMMENT_3>
+			<TO>GPJ</TO>
+			<OS>Executado</OS>
+		</TR>
+	</transicoes>
+
+</fluxo_bugzilla>
