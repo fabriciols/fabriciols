@@ -5,6 +5,7 @@ import os
 import sys
 import difflib
 import webbrowser
+import time
 
 # VERSAO = "0.1"
 # DATA = 19/06/09
@@ -139,6 +140,8 @@ USERNAME = 'fabriciols'
 PASSWORD = 'fabriciols'
 
 LABEL_FINAL = -1
+
+SSafe = win32com.client.Dispatch("SourceSafe")
 	
 
 def checkActionEnd(Action, start):
@@ -548,6 +551,113 @@ def findBase(baseName):
 
 	return n
 
+def do_RRT_DOC(bug, resp, owner, file_out_name):
+	template_name = 'RRT_cccccc_CODIGO_nome do codigo revisado.xls'
+
+	file_name = "%s/%s" %(os.getcwd(), template_name)
+	excel = win32com.client.Dispatch("Excel.Application")
+	excel.Visible = 1
+	book = excel.Workbooks.Open(file_name)
+
+	# Abas da planilha
+	sheet_projeto = book.Worksheets[1]
+	sheet_resumo  = book.Worksheets[2]
+	sheet_check   = book.Worksheets[3]
+	sheet_fonte   = book.Worksheets[8]
+
+	# Data
+	now = time.localtime(time.time())
+	now_str =   time.strftime("%m/%d/%Y", now)
+	now_str_2 = time.strftime("%d/%m/%Y", now)
+
+	# Usuario
+	user_resp  = get_USER(resp)
+	user_owner = get_USER(owner)
+
+	# Preenche a primeira pagina (Projeto)
+	SetCell(sheet_projeto.Cells(5, 3),  '63450')
+	SetCell(sheet_projeto.Cells(6, 3),  'Manutencao 2009 {Siac_Brasil}')
+	SetCell(sheet_projeto.Cells(7, 3),  bug)
+	SetCell(sheet_projeto.Cells(11, 3), now_str)
+	SetCell(sheet_projeto.Cells(11, 4), user_resp[1])
+
+	# Preenche a segunda pagina (Resumo)
+	SetCell(sheet_resumo.Cells(4, 4),  '1') # numero da revisao, sempre 1
+	SetCell(sheet_resumo.Cells(5, 4),  now_str_2) # Tempo
+	SetCell(sheet_resumo.Cells(6, 4),  '00:30') # tempo, sempre 00:30
+	SetCell(sheet_resumo.Cells(7, 4),  user_owner[1]) # nome do autor do codigo
+	SetCell(sheet_resumo.Cells(8, 4),  user_owner[2]) # experiencia
+	SetCell(sheet_resumo.Cells(9, 4),  user_owner[3]) # Cargo
+	SetCell(sheet_resumo.Cells(10, 4), 'Ricardo Zanni') # moderador que sempre eh o Zanni
+	SetCell(sheet_resumo.Cells(11, 4), user_resp[1]) # nome de quem fez a revisao
+	SetCell(sheet_resumo.Cells(12, 4), 'Revisao Individual')
+	SetCell(sheet_resumo.Cells(14, 4), 'Aprovado')
+
+	# Preenche a terceira pagina (Checklist RT1)
+	SetCell(sheet_check.Cells(6, 5), 'Item OK')
+	SetCell(sheet_check.Cells(7, 5), 'Item OK')
+	SetCell(sheet_check.Cells(8, 5), 'Item OK')
+	SetCell(sheet_check.Cells(9, 5), 'Item OK')
+	SetCell(sheet_check.Cells(10, 5),'Item OK')
+	SetCell(sheet_check.Cells(11, 5),'Item Ok')
+	SetCell(sheet_check.Cells(12, 5),'Item OK')
+	SetCell(sheet_check.Cells(13, 5),'Item OK')
+	SetCell(sheet_check.Cells(14, 5),'Item OK')
+	SetCell(sheet_check.Cells(15, 5),'Item OK')
+	SetCell(sheet_check.Cells(16, 5),'Item OK')
+	SetCell(sheet_check.Cells(17, 5),'Item OK')
+	SetCell(sheet_check.Cells(18, 5),'Item OK')
+
+	SetCell(sheet_check.Cells(23, 5),'Item OK')
+	SetCell(sheet_check.Cells(24, 5),'Item OK')
+	SetCell(sheet_check.Cells(25, 5),'Item OK')
+	SetCell(sheet_check.Cells(26, 5),'Item OK')
+	SetCell(sheet_check.Cells(27, 5),'Item OK')
+	SetCell(sheet_check.Cells(28, 5),'Item OK')
+	SetCell(sheet_check.Cells(29, 5),'Item OK')
+
+	# Preenche a ultima pagina (Codigo Fontes RT1)
+
+	# Linha vai incrementando
+	line = 6
+
+	file = fopen(file_out_name)
+	for str_line in file:
+		line_list = str_line.split('\t')
+		SetCell(sheet_fonte.Cells(line, 2),  line_list[0])
+		SetCell(sheet_fonte.Cells(line, 3),  line_list[1])
+		SetCell(sheet_fonte.Cells(line, 4),  line_list[2])
+		SetCell(sheet_fonte.Cells(line, 5),  line_list[3])
+		SetCell(sheet_fonte.Cells(line, 6),  line_list[4])
+		SetCell(sheet_fonte.Cells(line, 7),  line_list[5])
+		SetCell(sheet_fonte.Cells(line, 8),  'Item OK')
+		SetCell(sheet_fonte.Cells(line, 9),  '')
+		SetCell(sheet_fonte.Cells(line, 10), '')
+		SetCell(sheet_fonte.Cells(line, 11), '')
+		SetCell(sheet_fonte.Cells(line, 12), '')
+		SetCell(sheet_fonte.Cells(line, 13), '')
+		line += 1
+
+	file.close()
+
+	module_name = file_out_name.split('_')[1].split('.')[0]
+
+	book.SaveAs("%s/RRT_%s_CODIGO_%s.xls" %(os.getcwd(), int(bug), module_name));
+	excel.Quit()
+
+def SetCell(cell, value):
+	cell.Font.Color  = 0x000000
+	cell.Font.Bold   = False
+	cell.Font.Italic = False
+
+	#cell.Font.OutlineFont = True
+	cell.Borders.LineStyle = 1
+	#cell.Font.Strikethrough = True
+	#cell.Font.Subscript = True
+	#cell.Font.Superscript = True
+
+	cell.Value = value
+
 def usage():
 	print "%s : LABEL USUARIO [BASE] [PROJETO] [-bm]" %os.path.basename(sys.argv[0])
 	print "LABEL   - Label onde ocorreu a alteracao"
@@ -573,7 +683,6 @@ if __name__ == '__main__':
 		usage()
 		os._exit(0)
 
-	SSafe = win32com.client.Dispatch("SourceSafe")
 
 	###############
 	# "Globais"
@@ -672,6 +781,7 @@ if __name__ == '__main__':
 		opened = openBase(base_num)
 
 	do_RRT(sys.argv[1], sys.argv[2], browser=browser)
+	do_RRT_DOC(sys.argv[1], os.environ['UserName'], sys.argv[2], file_out_name)
 
 else:
 	print "Module %s loaded." %sys.argv[0]
