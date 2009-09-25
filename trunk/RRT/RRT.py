@@ -53,10 +53,14 @@ import time
 # VERSAO="0.92"
 # DATA="15/07/09"
 # Adicionando o fonte no GOOGLE CODE
-VERSAO="0.93"
-DATA="21/07/09"
+# VERSAO="0.93"
+# DATA="21/07/09"
 # Contorno pro problema de dar pau quando for dar DIFF de diretorio
 # Isso só ocorre se no label for incluído tambem um diretório
+VERSAO="0.94"
+DATA="12/08/09"
+# Geracao xls automatico
+# Correcao de alguns bugs reportados pelos BETA TESTERS (Danilo, Ferrari)
 
 FILE_EXCLUDE = [
 	".MAK",
@@ -83,7 +87,7 @@ USER_LIST = [
 ]
 
 APL_BASE_LIST = [
-	[ "siacbrasil_R1"  , "\\\\srvti104\sh124\SWSIAC\VSS_CMMI\siacbrasil_R1"      , "$/siacbrasil/desenvolvimento" ],
+	[ "siacbrasil_R1"  , "\\\\srvti104\sh124\SWSIAC\VSS_CMMI\siacbrasil_R1"      , "$/siacbrasil/construcao/desenvolvimento" ],
 	[ "siacbrasilR314" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR314/desenvolvimento" ],
 	[ "siacbrasilR317" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR317/desenvolvimento" ],
 	[ "siacbrasilR319" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR319/desenvolvimento" ],
@@ -347,18 +351,14 @@ def do_RRT(bug, username, browser=0):
 		print "|--- Procurando arquivos alterados ---|"
 		print "|--- bug: %s usuario: %s" %(bug, username)
 		list = GetFilesByBug(bug, username)
-		file_list = list[0]
-		user_list = list[1]
 
-		if len(file_list) is 0:
+		if len(list) is 0:
 			print "Sem arquivos alterados para o bug"
 			os._exit(0)
 
 		print "|--- Realizando o diff ---|"
 		print "|--- Arquivo de saida: %s" %file_out_name
 
-		if os.path.exists(file_out_name):
-			os.remove(file_out_name)
 	
 		for full_dir, user_diff in list:
 			#print "-> %s - %s" %(full_dir, user_diff)
@@ -554,9 +554,12 @@ def findBase(baseName):
 def do_RRT_DOC(bug, resp, owner, file_out_name):
 	template_name = 'RRT_cccccc_CODIGO_nome do codigo revisado.xls'
 
-	file_name = "%s/%s" %(os.getcwd(), template_name)
+	file_name = "%s\%s" %(os.getcwd(), template_name)
+
+	print "|-- Abrindo planilha  |%s|" %(file_name)
+
 	excel = win32com.client.Dispatch("Excel.Application")
-	excel.Visible = 1
+	#excel.Visible = 1
 	book = excel.Workbooks.Open(file_name)
 
 	# Abas da planilha
@@ -585,12 +588,16 @@ def do_RRT_DOC(bug, resp, owner, file_out_name):
 	SetCell(sheet_resumo.Cells(4, 4),  '1') # numero da revisao, sempre 1
 	SetCell(sheet_resumo.Cells(5, 4),  now_str_2) # Tempo
 	SetCell(sheet_resumo.Cells(6, 4),  '00:30') # tempo, sempre 00:30
-	SetCell(sheet_resumo.Cells(7, 4),  user_owner[1]) # nome do autor do codigo
-	SetCell(sheet_resumo.Cells(8, 4),  user_owner[2]) # experiencia
-	SetCell(sheet_resumo.Cells(9, 4),  user_owner[3]) # Cargo
-	SetCell(sheet_resumo.Cells(10, 4), 'Ricardo Zanni') # moderador que sempre eh o Zanni
-	SetCell(sheet_resumo.Cells(11, 4), user_resp[1]) # nome de quem fez a revisao
-	SetCell(sheet_resumo.Cells(12, 4), 'Revisao Individual')
+#SetCell(sheet_resumo.Cells(7, 4),  user_owner[1]) # nome do autor do codigo
+#SetCell(sheet_resumo.Cells(8, 4),  user_owner[2]) # experiencia
+#SetCell(sheet_resumo.Cells(9, 4),  user_owner[3]) # Cargo
+	SetCell(sheet_resumo.Cells(7, 4), 'Verificar na Aba \"Codigos Fonte RT1\"') # autor do codigo
+	SetCell(sheet_resumo.Cells(8, 4), 'Verificar na Aba \"Codigos Fonte RT1\"') # experiencia
+	SetCell(sheet_resumo.Cells(9, 4), 'Verificar na Aba \"Codigos Fonte RT1\"') # cargo
+	SetCell(sheet_resumo.Cells(10, 4), 'Verificar na Aba \"Codigos Fonte RT1\"') # Linhas gastas
+	SetCell(sheet_resumo.Cells(11, 4), 'Ricardo Zanni') # moderador que sempre eh o Zanni
+	SetCell(sheet_resumo.Cells(12, 4), user_resp[1]) # nome de quem fez a revisao
+	SetCell(sheet_resumo.Cells(13, 4), 'Individual/Peer Review')
 	SetCell(sheet_resumo.Cells(14, 4), 'Aprovado')
 
 	# Preenche a terceira pagina (Checklist RT1)
@@ -642,7 +649,11 @@ def do_RRT_DOC(bug, resp, owner, file_out_name):
 
 	module_name = file_out_name.split('_')[1].split('.')[0]
 
-	book.SaveAs("%s/RRT_%s_CODIGO_%s.xls" %(os.getcwd(), int(bug), module_name));
+	rrt_file_name = "%s\RRT_%s_CODIGO_%s.xls" %(os.getcwd(), bug, module_name)
+
+	print "|-- Salvando planilha |%s|" %(rrt_file_name)
+
+	book.SaveAs(rrt_file_name)
 	excel.Quit()
 
 def SetCell(cell, value):
@@ -652,6 +663,7 @@ def SetCell(cell, value):
 
 	#cell.Font.OutlineFont = True
 	cell.Borders.LineStyle = 1
+	cell.HorizontalAlignment = 2
 	#cell.Font.Strikethrough = True
 	#cell.Font.Subscript = True
 	#cell.Font.Superscript = True
@@ -671,6 +683,8 @@ def usage():
 	print "Exemplo: -m SERVER grapar	ou -m RET cryto"
 	print "-u USER - Usuario para logar no SSAFE"
 	print "-p PASS - Senha para logar no SSAFE"
+	print "-Z USER - Autor da RRT  (padrao = usuario logado)"
+	print "-NB BUG - Numero do BUG (padrao = LABEL)"
 
 if __name__ == '__main__':
 
@@ -692,14 +706,19 @@ if __name__ == '__main__':
 	opened = 0
 	browser = 0
 	len_args = 0
-	module = 0
 	SUBMODULE = 0
+	USER_RRT = os.environ['UserName']
+	GEN_DOC = 1
+	MODULE_LIST = []
+	NUMERO_BUG = 0
+	module = "APL" 
 	###############
 
 	j = 0
 
 	# Parser dos paramestros
 	for i in sys.argv:
+
 		if i.upper().find('-B') is not -1:
 			browser = 1
 		elif i.upper().find('-M') is not -1:
@@ -708,6 +727,7 @@ if __name__ == '__main__':
 				SUBMODULE = sys.argv[j+2]
 				len_args -= 1
 			len_args -= 1
+			MODULE_LIST.append( [ module, SUBMODULE ] )
 		elif i.upper().find('-U') is not -1:
 			USERNAME = sys.argv[j+1]
 			len_args -= 1
@@ -717,71 +737,90 @@ if __name__ == '__main__':
 		elif i.upper().find('-L') is not -1:
 			LABEL_FINAL = sys.argv[j+1]
 			len_args -= 1
+		elif i.upper().find('-Z') is not -1:
+			USER_RRT = sys.argv[j+1]
+			len_args -= 1
+		elif i.upper().find('-D') is not -1:
+			GEN_DOC = 0
+		elif i.upper().find('-NB') is not -1:
+			NUMERO_BUG = sys.argv[j+1] 
+			len_args -= 1
 		else:
 			len_args += 1
 		j += 1
 
-	if module is 0:
-		module = "APL"
+	if len(MODULE_LIST) is 0:
+		MODULE_LIST.append ( [ "APL", 0] )
 
-	file_out_name = "%s_%s" %(sys.argv[1], module)
+	if NUMERO_BUG is 0:
+		NUMERO_BUG = sys.argv[1]
 
-	# Define as constantes por modulo
-	BASE_LIST = ALL_BASE_LIST[module.upper()]
-	DIR_LIST  = ALL_DIR_LIST[module.upper()]
-	ROOT_DIR  = ALL_ROOT_DIR[module.upper()]
-
-	if SUBMODULE is not 0:
-		ROOT_DIR = "%s/%s" %(ROOT_DIR, SUBMODULE)
-		file_out_name = "%s_%s" %(file_out_name, SUBMODULE)
-
+	file_out_name = "%s_%s" %(NUMERO_BUG, module)
 	file_out_name = "%s.txt" %file_out_name
 
-	if len_args is 3:
-		base_num = select_base()
-	else:
-		base_num = findBase(sys.argv[3])
+	if os.path.exists(file_out_name):
+		os.remove(file_out_name)
 
-		if base_num is -1:
+	for module, SUBMODULE in MODULE_LIST:
+
+		if module is 0:
+			module = "APL"
+
+		print "|-- Modulo: %s Submodulo: %s" %(module, SUBMODULE)
+
+		# Define as constantes por modulo
+		BASE_LIST = ALL_BASE_LIST[module.upper()]
+		DIR_LIST  = ALL_DIR_LIST[module.upper()]
+		ROOT_DIR  = ALL_ROOT_DIR[module.upper()]
+
+		if SUBMODULE is not 0:
+			ROOT_DIR = "%s/%s" %(ROOT_DIR, SUBMODULE)
+
+		if len_args is 3:
 			base_num = select_base()
-
-	if len_args is 5:
-
-		projeto = sys.argv[4]
-
-		file_out_name = "%s_%s" %(projeto, file_out_name)
-
-		opened = openBase(base_num)
-
-		ss_dir = SSafe.VSSItem("$/%s" %(projeto))
-
-		# Varremos as linhas de projeto
-		i = 1
-		print "|-- Procurando linhas de projeto"
-		for node in ss_dir.Items:
-			if node.Name.upper() != "documento".upper():
-				print "|-- %-3d | %s" %(i, node.Name)
-				i += 1
-
-		if i is not 2:
-			n = int(raw_input("Escolha a linha a ser utilizada: "))
 		else:
-			n = 1
+			base_num = findBase(sys.argv[3])
 
-		linha = ss_dir.Items[n-1].Name
+			if base_num is -1:
+				base_num = select_base()
 
-		project_path = "$/%s/%s" %(sys.argv[4], linha)
+		if len_args is 5:
 
-		print "|-- Linha utilizada: %s" %project_path
+			projeto = sys.argv[4]
 
-		BASE_LIST[base_num][2] = project_path
+			opened = openBase(base_num)
 
-	# Inicializacao do SourceSafe
-	if opened is 0:
-		opened = openBase(base_num)
+			ss_dir = SSafe.VSSItem("$/%s" %(projeto))
 
-	do_RRT(sys.argv[1], sys.argv[2], browser=browser)
-	do_RRT_DOC(sys.argv[1], os.environ['UserName'], sys.argv[2], file_out_name)
+			# Varremos as linhas de projeto
+			i = 1
+			print "|-- Procurando linhas de projeto"
+			for node in ss_dir.Items:
+				if node.Name.upper() != "documento".upper():
+					print "|-- %-3d | %s" %(i, node.Name)
+					i += 1
+
+			if i is not 2:
+				n = int(raw_input("Escolha a linha a ser utilizada: "))
+			else:
+				n = 1
+
+			linha = ss_dir.Items[n-1].Name
+
+			project_path = "$/%s/%s" %(sys.argv[4], linha)
+
+			print "|-- Linha utilizada: %s" %project_path
+
+			BASE_LIST[base_num][2] = project_path
+
+		# Inicializacao do SourceSafe
+		if opened is 0:
+			opened = openBase(base_num)
+
+		do_RRT(NUMERO_BUG, sys.argv[2], browser=browser)
+
+	if GEN_DOC:
+		do_RRT_DOC(NUMERO_BUG, USER_RRT, sys.argv[2], file_out_name)
 
 else:
 	print "Module %s loaded." %sys.argv[0]

@@ -9,6 +9,7 @@ import time
 # Expressoes regulares para capturar areas de interesse
 er_apl = re.compile('itautec-possbr-5.(?P<versao>[0-9]*).(?P<release>[0-9]*)-.*.rpm')
 er_dg = re.compile('.*id="(?P<dg>DataGrid__ctl[^\"]*)\".*')
+er_libteste = re.compile('.*<td><font color="#003399" size="2">SiacBr</font></td><td><font color="#003399" size="2">(?P<module>[^<]*)</font>.*')
 er_prj = re.compile('</font></td><td><font color="#003399" size="1">(?P<versao>.*)</font></td><td><font color="#003399" size="1">(?P<release>.*)</font></td><td><font color="#003399" size="1">(?P<projeto>.*)</font></td><td><font color="#003399" size="1">(?P<tpprj>.*)</font></td><td><font color="#003399" size="1">(?P<nomeprj>.*)</font></td><td><font color="#003399" size="1">&nbsp;</font></td><td><font color="#003399" size="1">&nbsp;</font></td><td><font color="#003399" size="1">&nbsp;</font></td><td><font color="#003399" size="1">&nbsp;</font></td><td><font color="#003399" size="1"></font></td>')
 
 # Se vc esta em um ambiente onde nao eh possivel acessar o orkut direto , deixe PROXY=1
@@ -36,10 +37,71 @@ def do_all():
 	if len(user_name) is 0:
 		user_name = "fabriciols"
 
+	# Define qual a versao/release do aplicativo
+	if er_apl.match(module_name):
+		t = er_apl.search(module_name)
+		versao  = "V5%s" %t.group('versao')
+		release = "R%s"  %t.group('release')
+	else:
+		versao  = raw_input("Versao do projeto  (Exemplo: 551/570) : ")
+		release = raw_input("Release do Projeto (Exemplo: R47/R324): ")
+
+		if not versao.startswith('V'):
+			versao = "V%s" %versao
+
+		if not versao.startswith('R'):
+			release = "R%s" %release
+	# --------------------------------------
+
 	br = browser_start()
 	do_login(br)
-	insert_module(br, module_name, user_name)
+
+	insert_module(br, versao, release, module_name, user_name)
+
+	project_name = find_project (br, versao, release, module_name, user_name)
+
+	lines = br.open(PROJETOMODULO_URL)
+
 	insert_module_on_project(br, module_name, user_name)
+
+	#find_project (br, versao, release, module_name, user_name, project=project_name)
+	#send_module(br, module_name)
+
+
+def send_module(br, module_name):
+
+	lines = br.reload()
+	find_module = False
+
+	for i in lines.readlines():
+		if find_module is False:
+			if er_libteste.match(i):
+				#print i,
+				t = er_libteste.search(i)
+				module = t.group('module')
+				if module == module_name:
+					find_module = True
+
+		else:
+
+			if er_dg.match(i):
+				if i.find('alt="Liberar"') is not -1:
+					break
+
+	t = er_dg.search(i)
+	grid_tmp = t.group('dg')
+	grid = grid_tmp.replace("__",":_").replace("_Image",":Image");
+
+	print grid
+
+	for i in br.forms():
+		print i
+
+	br.select_form(nr=find_form_by_control(grid, br))
+	lines = br.open(br.form.click(name=grid.split(':')[-1]))
+
+	for i in lines.readlines():
+		print i
 
 def find_form_by_control(control, br):
 
@@ -90,45 +152,12 @@ def do_login(br):
 
 	print "---> Login efetuado"
 
-def insert_module(br, module_name, user_name):
+def find_project(br, versao, release, module_name, user_name, project=False):
 
-	print "---> Adicionando modulo"
-
-	lines = br.open(MODULO_URL)
-	br.select_form(nr=find_form_by_control("btnAdd", br))
-	lines = br.open(br.form.click(name="btnAdd"))
-	br.select_form(nr=find_form_by_control("cmbProduct", br))
-
-	br["cmbProduct"]    = [ "SiacBr" ]
-	br["txtModule"]     = module_name
-	br["txtDesc"]       = "Aplicativo Linux"
-	br["cmbModuleType"] = [ "frente" ]
-	br["txtPathVss"]    = "siac/carga_pdv_linux/install_rpm"
-
-	lines = br.open(br.form.click(name="btnOk"))
-
-	print "---> Modulo inserido"
-
-def insert_module_on_project(br, module_name, user_name):
-	print "---> Adicionando modulo ao projeto"
-
-	print module_name
-	if er_apl.match(module_name):
-		t = er_apl.search(module_name)
-		versao  = "V5%s" %t.group('versao')
-		release = "R%s"  %t.group('release')
-	else:
-		versao  = raw_input("Versao do projeto  (551/570) : ")
-		release = raw_input("Release do Projeto (R47/R324): ")
-
-		if not versao.startswith('V'):
-			versao = "V%s" %versao
-
-		if not versao.startswith('R'):
-			release = "R%s" %release
+	find = False
+	input_name = False
 
 	lines = br.open(PROJETO_URL)
-
 	br.select_form(nr=0)
 
 	try:
@@ -185,29 +214,63 @@ def insert_module_on_project(br, module_name, user_name):
 			list.append([grid, nome_item])
 			find_grid = False
 
-	print("--> Projetos encontrados: %d" %len(list))
-				
-	if len(list) > 1:
-		print "Mais de um projeto encontrado"
 
-	if len(list) is 0:
-		print "Nenhum projeto encontrado"
-		os._exit(0)
+			if project is not False:
 
-	print "Digite o numero do projeto desejado:"
-	i = 0
-	for grid, nome_item in list:
-		i = i + 1
-		print "%d - %s" %(i, nome_item)
+				if project.find(projeto) is not -1:
+					print "Projeto Selecionado:"
+					print nome_item
+					find = True
+					n = len(list)
 
-	n = int(raw_input("Numero do Projeto : "))
+	if find is False:
+		print("--> Projetos encontrados: %d" %len(list))
+					
+		if len(list) > 1:
+			print "Mais de um projeto encontrado"
+
+		if len(list) is 0:
+			print "Nenhum projeto encontrado"
+			os._exit(0)
+
+		print "Digite o numero do projeto desejado:"
+		i = 0
+		for grid, nome_item in list:
+			i = i + 1
+			print "%d - %s" %(i, nome_item)
+
+		n = int(raw_input("Numero do Projeto : "))
 
 	input_name = list[n-1][0]
 
 	br.select_form(nr=find_form_by_control(input_name, br))
 	lines = br.open(br.form.click(name=input_name))
 
-	lines = br.open(PROJETOMODULO_URL)
+
+	return list[n-1][1].split('|')[3]
+
+
+def insert_module(br, versao, release, module_name, user_name):
+
+	print "---> Adicionando modulo"
+
+	lines = br.open(MODULO_URL)
+	br.select_form(nr=find_form_by_control("btnAdd", br))
+	lines = br.open(br.form.click(name="btnAdd"))
+	br.select_form(nr=find_form_by_control("cmbProduct", br))
+
+	br["cmbProduct"]    = [ "SiacBr" ]
+	br["txtModule"]     = module_name
+	br["txtDesc"]       = "Aplicativo Linux"
+	br["cmbModuleType"] = [ "frente" ]
+	br["txtPathVss"]    = "siac/carga_pdv_linux/install_rpm"
+
+	lines = br.open(br.form.click(name="btnOk"))
+
+	print "---> Modulo inserido"
+
+def insert_module_on_project(br, module_name, user_name):
+	print "---> Adicionando modulo ao projeto"
 
 	br.select_form(nr=find_form_by_control("btnAdd", br))
 	lines = br.open(br.form.click(name="btnAdd"))
@@ -232,5 +295,7 @@ def insert_module_on_project(br, module_name, user_name):
 # --- MAIN ---
 
 #module_name = 'itautec-possbr-5.51.323-R00.P01.SL.i386.rpm'
-if len(sys.argv) > 1:
-	do_all()
+if __name__ == '__main__':
+
+	if len(sys.argv) > 1:
+		do_all()
