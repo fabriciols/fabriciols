@@ -12,8 +12,9 @@ USER_LIST = [
 	[ "mftoledo"   , "Marcelo Ferrari Toledo"     , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Especialista" ],
 	[ "fabiobs"    , "Fabio Brochado da Silva"    , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Especialista" ],
 	[ "rosanab"    , "Rosana Bergamasco Kamimura" , "Mais de 10 anos de experiencia",   "Analista/Engenheiro Especialista" ],
-	[ "claudiol"   , "Claudio Ling"               , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Especialista" ],
+	[ "claudiol"   , "Claudio Yua Shen Ling"      , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Especialista" ],
 	[ "rmoroz"     , "Raphael Moroz Mazzaro"      , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Senior" ],
+	[ "nnesouza"   , "Nildson Nei Elias de Souza" , "Entre 5 e 10 anos de experiencia", "Analista/Engenheiro Especialista" ],
 ]
 
 def get_USER(username):
@@ -83,17 +84,18 @@ def ChangeAISOwner(owner, book):
 	# Define o numero da revisao, sempre 1
 	SetCell(sheet.Cells(4, 4), '1')
 
-	# Define o tempo, sempre 00:30
-	SetCell(sheet.Cells(6, 4), '00:30')
+	# Define o tempo, sempre 01:00
+	SetCell(sheet.Cells(6, 4), '01:00')
 
 def SetAccept(book):
 
 	sheet = book.Worksheets[2]
 
 	SetCell(sheet.Cells(14, 4), 'Aprovado')
-	SetCell(sheet.Cells(12, 4), 'Revisao Individual')
+	SetCell(sheet.Cells(12, 4), 'Individual/Peer Review')
 
 def SetCell(cell, value):
+
 	cell.Font.Color  = 0x000000
 	cell.Font.Bold   = False
 	cell.Font.Italic = False
@@ -106,14 +108,23 @@ def SetChecklist(book):
 
 	# Define o checklist
 	SetCell(sheet.Cells(6, 5), 'Item OK')
-	SetCell(sheet.Cells(7, 5), 'Item OK')
+	SetCell(sheet.Cells(7, 5), 'Nao se Aplica')
 	SetCell(sheet.Cells(8, 5), 'Item OK')
 	SetCell(sheet.Cells(9, 5), 'Item OK')
-	SetCell(sheet.Cells(10, 5),'Item OK')
-	SetCell(sheet.Cells(11, 5),'Nao se Aplica')
-	SetCell(sheet.Cells(12, 5),'Item OK')
-	SetCell(sheet.Cells(13, 5),'Item OK')
-	SetCell(sheet.Cells(14, 5),'Item OK')
+	SetCell(sheet.Cells(10, 5), 'Nao se Aplica')
+	SetCell(sheet.Cells(11, 5), 'Nao se Aplica')
+	SetCell(sheet.Cells(12, 5), 'Item OK')
+	SetCell(sheet.Cells(13, 5), 'Item OK')
+	SetCell(sheet.Cells(14, 5), 'Nao se Aplica')
+	SetCell(sheet.Cells(15, 5), 'Item OK')
+	SetCell(sheet.Cells(16, 5), 'Item OK')
+	SetCell(sheet.Cells(17, 5), 'Item OK')
+	SetCell(sheet.Cells(18, 5), 'Item OK')
+	SetCell(sheet.Cells(19, 5), 'Item OK')
+	SetCell(sheet.Cells(20, 5), 'Item OK')
+	SetCell(sheet.Cells(21, 5), 'Item OK')
+	SetCell(sheet.Cells(22, 5), 'Item OK')
+
 
 def SaveFile(bug, book):
 	# Padrao de nome RRT_AIS_999999.xls
@@ -143,7 +154,7 @@ def do_RRT_AIS(bug, resp, owner):
 	SetAccept(book)
 	SetChecklist(book)
 	SaveFile(bug, book)
-	excel.Quit()
+#excel.Quit()
 
 def usage():
 	print "%s : BUG AUTOR -r RESPONSAVEL" %os.path.basename(sys.argv[0])
@@ -160,12 +171,12 @@ if __name__ == '__main__':
 
 	# Trata linha de comando
 	bug   = sys.argv[1]
-	resp  = sys.argv[2]
+	owner = sys.argv[2]
 
 	try:
-		owner = sys.argv[4]
+		resp = sys.argv[4]
 	except:
-		owner = os.environ['UserName']
+		resp = os.environ['UserName']
 
 	do_RRT_AIS(bug, resp, owner)
 
