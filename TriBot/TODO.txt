@@ -1,0 +1,17 @@
+Tribot
+
+TODO
+
+1. Prioridade de Construcao
+2. Objetivos para nivel de edificio desejado
+3. Farm automático em aldeias abandonadas
+4. Fila de construcao agendavel
+
+Detalhamento
+
+
+Tabela:
+
+build_info
+
+id_build, lvl, lvl_need, flag
