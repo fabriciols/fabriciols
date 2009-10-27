@@ -13,15 +13,15 @@ import time
 # Versao inicial
 # VERSAO = "0.2"
 # DATA="19/06/09"
-# Fabricio Lopes de Souzs
+# Fabricio Lopes de Souza
 # Alteracao para corrigir a divergencia no diff de alguns arquivos
 # VERSAO = "0.3"
 # DATA="22/06/09"
-# Fabricio Lopes de Souzs
+# Fabricio Lopes de Souza
 # Remocao dos arquivos .MAK .MAP na hora de fazer o diff
 # VERSAO="0.4"
 # DATA="23/06/09"
-# Fabricio Lopes de Souzs
+# Fabricio Lopes de Souza
 # Possibilidade de procurar por projetos
 # Adicionando novo parametro para isso: PROJETO
 # Mudando o nome do parametro BUG para LABEL, tornando-o mais adequado
@@ -57,10 +57,13 @@ import time
 # DATA="21/07/09"
 # Contorno pro problema de dar pau quando for dar DIFF de diretorio
 # Isso só ocorre se no label for incluído tambem um diretório
-VERSAO="0.94"
-DATA="12/08/09"
+# VERSAO="0.94"
+# DATA="12/08/09"
 # Geracao xls automatico
 # Correcao de alguns bugs reportados pelos BETA TESTERS (Danilo, Ferrari)
+VERSAO="0.95"
+DATA="27/10/09"
+# Modificao decorrente do novo layout de diretorios
 
 FILE_EXCLUDE = [
 	".MAK",
@@ -88,11 +91,12 @@ USER_LIST = [
 
 APL_BASE_LIST = [
 	[ "siacbrasil_R1"  , "\\\\srvti104\sh124\SWSIAC\VSS_CMMI\siacbrasil_R1"      , "$/siacbrasil/construcao/desenvolvimento" ],
-	[ "siacbrasilR314" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR314/desenvolvimento" ],
-	[ "siacbrasilR317" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR317/desenvolvimento" ],
-	[ "siacbrasilR319" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR319/desenvolvimento" ],
-	[ "siacbrasilR321" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR321/desenvolvimento" ],
-	[ "R47"            , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacBR"          , "$/siac/desenvolvimento" ],
+	[ "siacbrasilR314" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR314/construcao/desenvolvimento" ],
+	[ "siacbrasilR317" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR317/construcao/desenvolvimento" ],
+	[ "siacbrasilR319" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR319/construcao/desenvolvimento" ],
+	[ "siacbrasilR321" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR321/construcao/desenvolvimento" ],
+	[ "R47"            , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacBR"          , "$/siac/construcao/desenvolvimento" ],
+	[ "siaccbd_r1"     , "\\\\srvti104\sh124\SWSIAC\VSS_CMMI\siaccbd_r1"         , "$/siacbrasilR319/construcao/desenvolvimento" ],
 ]
 
 APL_DIR_LIST = [ 
@@ -114,7 +118,8 @@ APL_DIR_LIST = [
 APL_ROOT_DIR = "pos"
 
 USG_BASE_LIST = [
-	[ "usg" , "\\\\srvti104\sh106\VSS_CMMI\VssComum\SWSiacComum", "$/desenvolvimento" "pos/lib/gdac/usg" ]
+	[ "usg" , "\\\\srvti104\sh124\SWSIAC\VSS_CMMI\siaccomum_R1", "$/siaccomum/construcao/desenvolvimento/pos/lib/gdac/usg" ]
+
 ]
 
 USG_DIR_LIST = [
@@ -319,6 +324,8 @@ def GetFilesByBug(bug, username):
 					full_name = "%s/%s" %(full_dir, v.Action.replace('Added ', ''))
 				else:
 					full_name = "%s/%s" %(full_dir, v.VSSItem.Name)
+
+				#print full_name
 
 				list = [ full_name, v.Username ]
 
@@ -606,7 +613,7 @@ def do_RRT_DOC(bug, resp, owner, file_out_name):
 	SetCell(sheet_check.Cells(8, 5), 'Item OK')
 	SetCell(sheet_check.Cells(9, 5), 'Item OK')
 	SetCell(sheet_check.Cells(10, 5),'Item OK')
-	SetCell(sheet_check.Cells(11, 5),'Item Ok')
+	SetCell(sheet_check.Cells(11, 5),'Item OK')
 	SetCell(sheet_check.Cells(12, 5),'Item OK')
 	SetCell(sheet_check.Cells(13, 5),'Item OK')
 	SetCell(sheet_check.Cells(14, 5),'Item OK')
@@ -614,7 +621,6 @@ def do_RRT_DOC(bug, resp, owner, file_out_name):
 	SetCell(sheet_check.Cells(16, 5),'Item OK')
 	SetCell(sheet_check.Cells(17, 5),'Item OK')
 	SetCell(sheet_check.Cells(18, 5),'Item OK')
-
 	SetCell(sheet_check.Cells(23, 5),'Item OK')
 	SetCell(sheet_check.Cells(24, 5),'Item OK')
 	SetCell(sheet_check.Cells(25, 5),'Item OK')
@@ -622,6 +628,13 @@ def do_RRT_DOC(bug, resp, owner, file_out_name):
 	SetCell(sheet_check.Cells(27, 5),'Item OK')
 	SetCell(sheet_check.Cells(28, 5),'Item OK')
 	SetCell(sheet_check.Cells(29, 5),'Item OK')
+
+	SetCell(sheet_check.Cells(32, 5),'Nao se Aplica')
+	SetCell(sheet_check.Cells(33, 5),'Nao se Aplica')
+	SetCell(sheet_check.Cells(34, 5),'Nao se Aplica')
+	SetCell(sheet_check.Cells(35, 5),'Nao se Aplica')
+	SetCell(sheet_check.Cells(36, 5),'Nao se Aplica')
+	SetCell(sheet_check.Cells(37, 5),'Nao se Aplica')
 
 	# Preenche a ultima pagina (Codigo Fontes RT1)
 
