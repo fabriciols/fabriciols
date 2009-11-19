@@ -5,18 +5,23 @@ import re
 import pprint
 import os
 import sys
+from django.core.management import setup_environ
 
-sys.path.append('c:\\Users\\fabriciols\\Desktop\\fabriciols')
+# Define onde esta o meu projeto
+sys.path.append(os.path.abspath('..\\..\\'))
 os.environ['DJANGO_SETTINGS_MODULE'] ='ps3t.settings'
 
-
-from django.core.management import setup_environ
 from ps3t import settings
-#settings.DATABASE_NAME = os.path.join( project_dir, settings.DATABASE_NAME )
-setup_environ(settings)
-import ps3t.myps3t.models as db
 
-project_dir = os.path.abspath('../') # or path to the dir. that the db should be in.
+# E onde esta o db
+project_dir = os.path.abspath('..\\') # or path to the dir. that the db should be in.
+settings.DATABASE_NAME = os.path.join( project_dir, settings.DATABASE_NAME )
+
+# Seta o enviromente depois de ter modificado
+# os settings corretamente
+setup_environ(settings)
+
+import ps3t.myps3t.models as db
 
 hh = urllib2.HTTPHandler()
 hsh = urllib2.HTTPSHandler()
@@ -27,20 +32,24 @@ hsh.set_http_debuglevel(0)
 #cj = cookielib.LWPCookieJar()
 opener = urllib2.build_opener(hh, hsh)
 
-def get_user_info(user):
+def get_user_info(user, debug_offline=False):
 
-	URL = "http://profiles.us.playstation.com/playstation/psn/profiles/%s" %user
+	if debug_offline is False:
 
-	request = urllib2.Request(URL)
+		URL = "http://profiles.us.playstation.com/playstation/psn/profiles/%s" %user
 
-	request.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; pt-BR; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729)')
-	request.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-	request.add_header('Accept-Language', 'pt-br,pt;q=0.8,en-us;q=0.5,en;q=0.3')
-	request.add_header('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
-	request.add_header('Keep-Alive', '300')
-	request.add_header('Connection', 'keep-alive')
+		request = urllib2.Request(URL)
 
-	br = opener.open(request)
+		request.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; pt-BR; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729)')
+		request.add_header('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+		request.add_header('Accept-Language', 'pt-br,pt;q=0.8,en-us;q=0.5,en;q=0.3')
+		request.add_header('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
+		request.add_header('Keep-Alive', '300')
+		request.add_header('Connection', 'keep-alive')
+
+		br = opener.open(request)
+	else:
+		br = open(debug_offline)
 
 	ER_USER_AVATAR = re.compile('.*<img width="57" height="57" border="0" alt="" src="(?P<user_avatar>.*.png)"/>.*')
 	ER_USER_LEVEL  = re.compile('.*<div id="leveltext"> (?P<user_level>[0-9]{1,})</div>.*')
@@ -87,25 +96,31 @@ def get_user_info(user):
 			USER_DICT["bronze"] = int(ER_USER_BRONZE.search(i).group('bronze'))
 			break
 
+	if debug_offline is not False:
+		br.close()
+
 	return USER_DICT
 
-def get_user_games_list(user):
+def get_user_games_list(user, debug_offline=False):
 
-	URL = "http://profiles.us.playstation.com/playstation/psn/profile/%s/get_ordered_trophies_data" %user
+	if debug_offline is False:
+		URL = "http://profiles.us.playstation.com/playstation/psn/profile/%s/get_ordered_trophies_data" %user
 
-	request = urllib2.Request(URL)
+		request = urllib2.Request(URL)
 
-	request.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; pt-BR; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729)')
-	request.add_header('Accept', 'text/javascript, text/html, application/xml, text/xml, */*')
-	request.add_header('Accept-Language', 'pt-br,pt;q=0.8,en-us;q=0.5,en;q=0.3')
-	request.add_header('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
-	request.add_header('Keep-Alive', '300')
-	request.add_header('Connection', 'keep-alive')
-	request.add_header('X-Requested-With', 'XMLHttpRequest')
-	request.add_header('X-Prototype-Version', '1.6.1_rc3')
-	request.add_header('Referer', 'http://profiles.us.playstation.com/playstation/psn/profiles/%s' %user) 
+		request.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; pt-BR; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729)')
+		request.add_header('Accept', 'text/javascript, text/html, application/xml, text/xml, */*')
+		request.add_header('Accept-Language', 'pt-br,pt;q=0.8,en-us;q=0.5,en;q=0.3')
+		request.add_header('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
+		request.add_header('Keep-Alive', '300')
+		request.add_header('Connection', 'keep-alive')
+		request.add_header('X-Requested-With', 'XMLHttpRequest')
+		request.add_header('X-Prototype-Version', '1.6.1_rc3')
+		request.add_header('Referer', 'http://profiles.us.playstation.com/playstation/psn/profiles/%s' %user) 
 
-	br = opener.open(request)
+		br = opener.open(request)
+	else:
+		br = open(debug_offline)
 
 	ER_GAME_ID   = re.compile(' {10}<a href="/playstation/psn/profiles/%s/trophies/(?P<game_id>.*)">.*' %user)
 	ER_GAME_NAME = re.compile('.*<span class="gameTitleSortField">(?P<game_name>.*)</span>.*')
@@ -166,6 +181,9 @@ def get_user_games_list(user):
 
 	if len(GAME_DICT) > 0:
 		GAME_LIST.append(GAME_DICT)
+
+	if debug_offline is not False:
+		br.close()
 
 	return GAME_LIST
 
@@ -248,18 +266,42 @@ def get_user_game_info(user, game):
 				
 USER='fabriciols'
 
-USER_INFO      = get_user_info(USER)
-GAME_USER_LIST = get_user_games_list(USER)
+USER_INFO      = get_user_info(USER, "user_site.txt")
+pprint.pprint(USER_INFO)
 
-db.gamesInfo.objects.all()
+GAME_USER_LIST = get_user_games_list(USER, "game_site.txt")
+
+# Cria o modelo para a tabela do usuario
+# referente a lista de jogos
 
 for game in GAME_USER_LIST:
-	pprint.pprint(game)
-	game = db.gamesInfo(psn_id = game["id"],
-						       name = game["name"],
-						    pic_url = game["pic_url"])
+	if len(db.gamesInfo.objects.filter(psn_id=game["id"])) is 0:
 
-	game.save()
+		print "New game found: %s" %game["id"]
+
+		game_db = db.gamesInfo(
+			psn_id  = game["id"],
+			name    = game["name"],
+			pic_url = game["pic_url"])
+		game_db.save()
+
+	if len(db.userGameInfo.objects.filter(user=USER, game=game["id"])) is 0:
+		print "New game (%s) for user %s" %(USER, game["id"])
+
+		pprint.pprint(game)
+	
+		user_game_db = db.userGameInfo(
+			user    = USER,
+			game_id = game["id"],
+			perc_done = game["perc_done"],
+			platinum  = game["trophy_platinum"],
+			gold      = game["trophy_gold"],
+			silver	 = game["trophy_silver"],
+			bronze    = game["trophy_bronze"])
+
+		user_game_db.save()
+ 
+
 
 pprint.pprint(USER_INFO)
 #pprint.pprint(GAME_USER_LIST)
