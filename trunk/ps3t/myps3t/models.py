@@ -34,3 +34,12 @@ class gamesInfo(models.Model):
 	psn_id = models.CharField(max_length=30)
 	name   = models.CharField(max_length=100)
 	pic_url= models.CharField(max_length=150)
+
+class userGameInfo(models.Model):
+	user      = models.ForeignKey(usersInfo)
+	game      = models.ForeignKey(gamesInfo)
+	perc_done = models.IntegerField()
+	platinum  = models.IntegerField()
+	gold    = models.IntegerField()
+	silver  = models.IntegerField()
+	bronze  = models.IntegerField()
