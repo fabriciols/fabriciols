@@ -61,9 +61,14 @@ import time
 # DATA="12/08/09"
 # Geracao xls automatico
 # Correcao de alguns bugs reportados pelos BETA TESTERS (Danilo, Ferrari)
-VERSAO="0.95"
-DATA="27/10/09"
+# VERSAO="0.95"
+# DATA="27/10/09"
 # Modificao decorrente do novo layout de diretorios
+VERSAO="0.96"
+DATA="28/10/09"
+# Corrigido o problema de NAO considerar um rollback
+# como uma alteracao no fonte. Este problema causava
+# um pulo no diff
 
 FILE_EXCLUDE = [
 	".MAK",
@@ -91,6 +96,9 @@ USER_LIST = [
 
 APL_BASE_LIST = [
 	[ "siacbrasil_R1"  , "\\\\srvti104\sh124\SWSIAC\VSS_CMMI\siacbrasil_R1"      , "$/siacbrasil/construcao/desenvolvimento" ],
+	[ "siacbrasil_R325", "\\\\srvti104\sh124\SWSIAC\VSS_CMMI\siacbrasil_R1"      , "$/siacbrasil_R325/construcao/desenvolvimento" ],
+	[ "siacbrasil_R324", "\\\\srvti104\sh124\SWSIAC\VSS_CMMI\siacbrasil_R1"      , "$/siacbrasil_R324/construcao/desenvolvimento" ],
+	[ "siacbrasil_R323", "\\\\srvti104\sh124\SWSIAC\VSS_CMMI\siacbrasil_R1"      , "$/siacbrasil_R323/construcao/desenvolvimento" ],
 	[ "siacbrasilR314" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR314/construcao/desenvolvimento" ],
 	[ "siacbrasilR317" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR317/construcao/desenvolvimento" ],
 	[ "siacbrasilR319" , "\\\\srvti104\sh106\VSS_CMMI\VssSIAC\SWSiacStore_CMMI"  , "$/siacbrasilR319/construcao/desenvolvimento" ],
@@ -156,6 +164,9 @@ SSafe = win32com.client.Dispatch("SourceSafe")
 def checkActionEnd(Action, start):
 	if Action.startswith('Checked in'):
 		return 1
+
+#if Action.startswith('Rollback'):
+#		return 1
 
 	if Action.startswith('Added'):
 		return 1
@@ -385,7 +396,7 @@ def do_RRT(bug, username, browser=0):
 				
 			# Se o arquivo for um dos presentes na lista de excessao
 			for fexclude in FILE_EXCLUDE:
-				if full_dir.upper().find(fexclude) is not -1:
+				if full_dir.upper().find(fexclude.upper()) is not -1:
 					jump = 1
 					break
 
@@ -409,7 +420,7 @@ def do_RRT(bug, username, browser=0):
 			for v in vers:
 				label_end = 0
 
-				#print "|%s| - |%s| - |%s| - |%d|" %(v.VersionNumber, v.Action, v.Label, start)
+#print "Version|%s| - Action|%s| - Label|%s| - Start|%d|" %(v.VersionNumber, v.Action, v.Label, start)
 
 				if start is 0:
 
@@ -505,7 +516,6 @@ def do_RRT(bug, username, browser=0):
 			
 			print "+ Diff: |%-2d-%2d| %-12s" %(vssitem_list[0].VersionNumber, vssitem_list[1].VersionNumber, os.path.basename(full_dir))
 
-
 			user = get_USER(user_diff)
 
 			changed = fcompare(full_names[0], full_names[1], browser=browser)
@@ -525,6 +535,7 @@ def do_RRT(bug, username, browser=0):
 def openBase(baseNum):
 
 	baseUrl = "%s\\%s" %(BASE_LIST[base_num][1], "srcsafe.ini") 
+	print baseUrl
 	
 #username = "fabriciols"
 #password = "kemmel"
