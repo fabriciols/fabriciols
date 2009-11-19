@@ -42,7 +42,7 @@ def browser_start():
 	#br.set_debug_responses(True)
 	#br.set_debug_http(True)
 
-	br.set_proxies({"http": "net\\fabriciols:rootroot123456@proxy.intranet:80"})
+	br.set_proxies({"http": "net\\fabriciols:rootroot@proxy.intranet:80"})
 
 	br.set_handle_robots(False)
 
@@ -59,6 +59,7 @@ def usage():
 	print "TRACK_NUMBER - Numero do rastreio, podendo ser N numeros separado por espaco (' ')"
 	print "-t SEGUNDOS  - Intervalo de tempo entre as checagens                Default:3600 (1hr)"
 	print "-e EMAIL     - Endereco de email para avisar qndo houver alteracao  Default:numm (nao manda email)"
+	print "-f FILE      - Arquivo contendo os TRACK NUMBERS separado por '\n' apenas 1 por linha"
 
 
 def do_sendmail(track):
@@ -72,11 +73,11 @@ def do_sendmail(track):
 
 	text = fd.read()
 
-	full_text = "Subject: Status do track number: %s\nTo: %s\n\n%s" %(track, MAIL, text)
+	full_text = "Subject: Status do track number: %s\nTo: %s\n\n%s" %(track, EMAIL, text)
 
 	server = smtplib.SMTP(smtpServer)
 	#server.set_debuglevel(1)
-	server.sendmail(fromAddr, MAIL, full_text)
+	server.sendmail(fromAddr, EMAIL, full_text)
 	server.quit()
 
 	fd.close()
@@ -109,8 +110,21 @@ while i < len(sys.argv):
 	elif sys.argv[i] == '-e':
 		EMAIL = sys.argv[i+1]
 		i += 1
+	elif sys.argv[i] == '-f':
+		for line in open(sys.argv[i+1]):
+			comment = ""
+			track   = ""
+
+			if line.find('#') is not -1:
+				track, comment = line.split('#')
+			else:
+				# o :-1 eh para tirar o '\n'
+				track = line[:-1];
+
+			TRACK_LIST.append([track.upper(), comment[:-1]])
+		i += 1
 	else:
-		TRACK_LIST.append(sys.argv[i])
+		TRACK_LIST.append(sys.argv[i], "")
 
 	i += 1
 
@@ -124,9 +138,11 @@ num_lines = -1
 num_lines_old = -1
 
 # Abre um BROWSER para cada track diferente
-for track in TRACK_LIST:
-	BROWSER_LIST.append([ track, browser_start(), -1 ])
-	BROWSER_LIST[j][1].open(CORREIOS_URL %track)
+for track, comment in TRACK_LIST:
+	BROWSER_LIST.append([ track, comment, browser_start(), -1 ])
+	print "Abrindo track: %s" %track,
+	BROWSER_LIST[j][2].open(CORREIOS_URL %track)
+	print "ok"
 	j += 1
 
 while 1:
@@ -138,7 +154,7 @@ while 1:
 
 	myPrint("#####################################################################################")
 
-	for track, br, line in BROWSER_LIST:
+	for track, comment, br, line in BROWSER_LIST:
 		z += 1
 
 
@@ -153,7 +169,10 @@ while 1:
 
 		my_time = time_sleep.strftime('%X %d/%m/%Y')
 
-		print "Atualizando Status : %s (%s)" %(track, my_time)
+		myPrint("Atualizando Status (%s)" %my_time)
+		myPrint("Track: %s" %track)
+		if comment is not "":
+			myPrint("Info : %s" %comment)
 
 		myPrint("-------------------------------------------------------------------------------------")
 		myPrint("|      HORARIO     |                     LOCAL                 |       STATUS       |")
@@ -190,7 +209,7 @@ while 1:
 			print "Pagina nao atualizada (%d == %d)" %(num_lines, num_lines_old)
 
 
-		BROWSER_LIST[z][2] = num_lines
+		BROWSER_LIST[z][3] = num_lines
 
 
 	if update is not False:
