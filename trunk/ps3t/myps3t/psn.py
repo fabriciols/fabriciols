@@ -12,13 +12,17 @@ os.environ['DJANGO_SETTINGS_MODULE'] ='ps3t.settings'
 
 from django.core.management import setup_environ
 from ps3t import settings
-
+#settings.DATABASE_NAME = os.path.join( project_dir, settings.DATABASE_NAME )
+setup_environ(settings)
 import ps3t.myps3t.models as db
+
+project_dir = os.path.abspath('../') # or path to the dir. that the db should be in.
 
 hh = urllib2.HTTPHandler()
 hsh = urllib2.HTTPSHandler()
 hh.set_http_debuglevel(0)
 hsh.set_http_debuglevel(0)
+
 
 #cj = cookielib.LWPCookieJar()
 opener = urllib2.build_opener(hh, hsh)
@@ -247,5 +251,15 @@ USER='fabriciols'
 USER_INFO      = get_user_info(USER)
 GAME_USER_LIST = get_user_games_list(USER)
 
+db.gamesInfo.objects.all()
+
+for game in GAME_USER_LIST:
+	pprint.pprint(game)
+	game = db.gamesInfo(psn_id = game["id"],
+						       name = game["name"],
+						    pic_url = game["pic_url"])
+
+	game.save()
+
 pprint.pprint(USER_INFO)
-pprint.pprint(GAME_USER_LIST)
+#pprint.pprint(GAME_USER_LIST)
