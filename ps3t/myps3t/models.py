@@ -6,6 +6,7 @@ class usersInfo(models.Model):
 	name   = models.CharField(max_length=50)
 	email  = models.CharField(max_length=50)
 	passwd = models.CharField(max_length=50)
+	avatar = models.CharField(max_length=200)
 	type   = models.IntegerField()
 
 class usersStats(models.Model):
@@ -28,3 +29,8 @@ class usersStats(models.Model):
 	last_bron = models.IntegerField()
 	last_lvl  = models.IntegerField()
 	last_perc = models.IntegerField()
+
+class gamesInfo(models.Model):
+	psn_id = models.CharField(max_length=30)
+	name   = models.CharField(max_length=100)
+	pic_url= models.CharField(max_length=150)
