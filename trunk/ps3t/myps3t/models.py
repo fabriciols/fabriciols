@@ -1,43 +1,43 @@
 from django.db import models
+from datetime import datetime
 
 # Definicao das tabelas do BD
 
-class usersInfo(models.Model):
-	name   = models.CharField(max_length=50)
+class userInfo(models.Model):
+	psn_id = models.CharField(max_length=30)
 	email  = models.CharField(max_length=50)
-	passwd = models.CharField(max_length=50)
-	avatar = models.CharField(max_length=200)
-	type   = models.IntegerField()
+	pic_url= models.CharField(max_length=150)
 
-class usersStats(models.Model):
-	user   = models.ForeignKey(usersInfo)
-	name   = models.CharField(max_length=50)
-	platinum  = models.IntegerField()
+class userTrophy(models.Model):
+	user     = models.ForeignKey(userInfo)
+	platinum = models.IntegerField()
 	gold    = models.IntegerField()
 	silver  = models.IntegerField()
 	bronze  = models.IntegerField()
 	level   = models.IntegerField()
+	total   = models.IntegerField()
+	perc_level  = models.IntegerField()
+	date_update = models.DateField(default=datetime.now, blank=True)
+
+class userLastTrophy(models.Model):
+	user     = models.ForeignKey(userInfo)
+	platinum = models.IntegerField()
+	gold    = models.IntegerField()
+	silver  = models.IntegerField()
+	bronze  = models.IntegerField()
+	total   = models.IntegerField()
+	level   = models.IntegerField()
 	percent = models.IntegerField()
-	last_update = models.DateTimeField()
+	date_update = models.DateField(default=datetime.now, blank=True)
 
-	# Informacoes do ultimo update
-	# Esta nesta tabela para ter mais agilidade
-	# na hora de mostrar o Rank
-	last_plat = models.IntegerField()
-	last_gold = models.IntegerField()
-	last_silv = models.IntegerField()
-	last_bron = models.IntegerField()
-	last_lvl  = models.IntegerField()
-	last_perc = models.IntegerField()
-
-class gamesInfo(models.Model):
+class gameInfo(models.Model):
 	psn_id = models.CharField(max_length=30)
 	name   = models.CharField(max_length=100)
 	pic_url= models.CharField(max_length=150)
 
 class userGameInfo(models.Model):
-	user      = models.ForeignKey(usersInfo)
-	game      = models.ForeignKey(gamesInfo)
+	user      = models.ForeignKey(userInfo)
+	game      = models.ForeignKey(gameInfo)
 	perc_done = models.IntegerField()
 	platinum  = models.IntegerField()
 	gold    = models.IntegerField()

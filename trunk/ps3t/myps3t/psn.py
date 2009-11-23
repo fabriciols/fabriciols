@@ -5,6 +5,7 @@ import re
 import pprint
 import os
 import sys
+from datetime import datetime
 from django.core.management import setup_environ
 
 # Define onde esta o meu projeto
@@ -61,11 +62,13 @@ def get_user_info(user, debug_offline=False):
 	ER_USER_BRONZE = re.compile('.*<div class="text bronze">(?P<bronze>[0-9]{1,}) Bronze</div>.*')
 
 	USER_DICT = {}
+
+	USER_DICT["psn_id"] = user
 	
 	for i in br.readlines():
 
 		if ER_USER_AVATAR.match(i):
-			USER_DICT["avatar_url"] = ER_USER_AVATAR.search(i).group('user_avatar')
+			USER_DICT["pic_url"] = ER_USER_AVATAR.search(i).group('user_avatar')
 			continue
 
 		if ER_USER_LEVEL.match(i):
@@ -73,7 +76,7 @@ def get_user_info(user, debug_offline=False):
 			continue
 
 		if ER_USER_PERC.match(i):
-			USER_DICT["perc"] = int(ER_USER_PERC.search(i).group('perc_level'))
+			USER_DICT["perc_level"] = int(ER_USER_PERC.search(i).group('perc_level'))
 			continue
 
 		if ER_USER_TOTAL.match(i):
@@ -81,7 +84,7 @@ def get_user_info(user, debug_offline=False):
 			continue
 
 		if ER_USER_PLAT.match(i):
-			USER_DICT["plat"] = int(ER_USER_PLAT.search(i).group('plat'))
+			USER_DICT["platinum"] = int(ER_USER_PLAT.search(i).group('plat'))
 			continue
 
 		if ER_USER_GOLD.match(i):
@@ -264,44 +267,80 @@ def get_user_game_info(user, game):
 
 	return TROPHY_LIST
 				
-USER='fabriciols'
+USER_LIST = [ "fabriciols" ]
 
-USER_INFO      = get_user_info(USER, "user_site.txt")
-pprint.pprint(USER_INFO)
+for USER in USER_LIST:
 
-GAME_USER_LIST = get_user_games_list(USER, "game_site.txt")
+	USER_INFO      = get_user_info(USER, "user_site.txt")
+	#pprint.pprint(USER_INFO)
 
-# Cria o modelo para a tabela do usuario
-# referente a lista de jogos
+	GAME_USER_LIST = get_user_games_list(USER, "game_site.txt")
+	#pprint.pprint(GAME_USER_LIST)
 
-for game in GAME_USER_LIST:
-	if len(db.gamesInfo.objects.filter(psn_id=game["id"])) is 0:
+	# Cria o modelo para a tabela do usuario
+	# referente a lista de jogos
+	user_db = db.userInfo.objects.filter(psn_id=USER_INFO["psn_id"])
 
-		print "New game found: %s" %game["id"]
+	if len(user_db) is 0:
+		print "New USER!"
 
-		game_db = db.gamesInfo(
-			psn_id  = game["id"],
-			name    = game["name"],
-			pic_url = game["pic_url"])
-		game_db.save()
+		user_db = db.userInfo(psn_id = USER_INFO["psn_id"],
+									email = "",
+									pic_url = USER_INFO["pic_url"])
 
-	if len(db.userGameInfo.objects.filter(user=USER, game=game["id"])) is 0:
-		print "New game (%s) for user %s" %(USER, game["id"])
+		user_db.save()
+	else:
+		user_db = user_db[0]
 
-		pprint.pprint(game)
-	
-		user_game_db = db.userGameInfo(
-			user    = USER,
-			game_id = game["id"],
-			perc_done = game["perc_done"],
-			platinum  = game["trophy_platinum"],
-			gold      = game["trophy_gold"],
-			silver	 = game["trophy_silver"],
-			bronze    = game["trophy_bronze"])
+	userTrophy_db = db.userTrophy.objects.filter(user=user_db)
 
-		user_game_db.save()
- 
+	if len(userTrophy_db) is 0:
+		print "New trophy info for user: %s" %USER_INFO["psn_id"]
 
+		userTrophy_db = db.userTrophy(
+										user       = user_db,
+										platinum   = USER_INFO["platinum"],
+										gold       = USER_INFO["gold"],
+										silver     = USER_INFO["silver"],
+										bronze     = USER_INFO["bronze"],
+										total      = USER_INFO["total"],
+										level      = USER_INFO["level"],
+										perc_level = USER_INFO["perc_level"])
+		
+		userTrophy_db.save()
+	else:
+		userTrophy_db = userTrophy_db[0]
 
-pprint.pprint(USER_INFO)
-#pprint.pprint(GAME_USER_LIST)
+	for game in GAME_USER_LIST:
+		game_db = db.gameInfo.objects.filter(psn_id=game["id"])
+		if len(game_db) is 0:
+
+			print "New game found: %s" %game["id"]
+
+			game_db = db.gameInfo(
+				psn_id  = game["id"],
+				name    = game["name"],
+				pic_url = game["pic_url"])
+
+			game_db.save()
+		else:
+			game_db = game_db[0]
+
+		if len(db.userGameInfo.objects.filter(user=user_db, game=game_db)) is 0:
+			print "New game (%s) for user %s" %(game["id"], USER_INFO["psn_id"])
+
+			#pprint.pprint(game)
+		
+			user_game_db = db.userGameInfo(
+				user    = user_db,
+				game    = game_db,
+				perc_done = game["perc_done"],
+				platinum  = game["trophy_platinum"],
+				gold      = game["trophy_gold"],
+				silver	 = game["trophy_silver"],
+				bronze    = game["trophy_bronze"])
+
+			user_game_db.save()
+	 
+	#pprint.pprint(USER_INFO)
+	#pprint.pprint(GAME_USER_LIST)
