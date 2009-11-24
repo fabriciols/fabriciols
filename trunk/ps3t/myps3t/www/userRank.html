@@ -1,27 +1,93 @@
-<h2>Usuario: {{ user.psn_id }} Email: {{ user.email }} Avatar:</h1>
+<style>
+body{
+	color:#fff;
+	background:#323232 ;
+	font-family:Tahoma;
+	font-size:12px;
+	margin:0;
+	padding:0;
+}
+
+table.sitedefault, table.sitedefault td {
+  border-top        : 1px solid #CCC;
+  border-bottom     : 1px solid #CCC;
+  border-collapse   : collapse;
+  font              : 12px "Tahoma", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
+}
+table.sitedefault thead th, table.sitedefault tbody th {
+  color             : #666;  
+  padding           : 5px 10px;
+  border-top        : 1px solid #CCC;
+  border-bottom     : 1px solid #CCC;
+}
+table.sitedefault tbody th {
+  background        : #fafafb;
+  border-top        : 1px solid #CCC;
+  text-align        : left;
+  font-weight       : normal;
+}
+table.sitedefault tbody tr td {
+  padding           : 3px 5px;
+  color             : #666;
+}
+
+table.sitedefault tbody tr:hover td {
+  color             : #454545;
+}
+table.sitedefault {
+  border            : none;
+  border-left       : 1px solid #CCC;
+  border-right      : 1px solid #CCC;
+}
+
+a {color:#cdcdcd;font-weight:900;text-decoration:underline;}
+a:hover {color:#fff;text-decoration:underline;}
+a:active {color:#fff;}
+
+table.datagrid {border-collapse:separate;border-spacing:0px;empty-cells:show;border-right:1px solid #151515;font-size:0.9em; background:#222;padding:10px;margin-top:1px;}
+table.datagrid td {border:1px solid #151515;border-top:none;border-right:1px solid #151515;padding:7px 8px;color:#fff;}
+table.datagrid tr.datarow {background:#444;}
+table.datagrid th {padding:3px 8px;background:#151515;border-left:1px solid #333;border-top:1px solid #333;border-bottom:1px solid #000;border-right:1px solid #000;font-weight:900;color:#fff;}
+td.datacell-1, th.datacell-1 {text-align:left;}
+td.datacell-2, th.datacell-2 {text-align:center;}
+td.datacell-3, th.datacell-3 {text-align:right;}
+table.datagrid td em {color:#888;font-style:normal;}
+table.datagrid td ul {margin:0 15px;padding:0;}
+
+</style>
+
+
+<h2>Usuario: {{ user.psn_id }} Email: {{ user.email }} Avatar:</h2>
 <img src="{{ user.pic_url}}" />
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<table border=1>
-	<tr>
-	 <td align="left" > Nome do Jogo </td>
-	 <td align="center" > </td>
-    <td align="center" > % </td>
-    <td align="center" > Platinum </td>
-    <td align="center" > Gold     </td>
-    <td align="center" > Silver   </td>
-    <td align="center" > Bronze   </td>
+<table class="datagrid" align="center">
+	<tr> 
+		<th align="center" > # </th>
+		<th align="left"   style="border-left: 0px; border-right: 0px"> Nome do Jogo </th>
+		<th align="center" > </th>
+		<th align="center" > % </th>
+		<th align="center" > <img src="../../media/gold.png">     </th>
+		<th align="center" > <img src="../../media/silver.png">   </th>
+		<th align="center" > <img src="../../media/bronze.png">   </th>
 	</tr>
-{% for game in user_game_info %}
-	<tr>
-	 <td align="left" > <a href="game/{{ game.game.psn_id}}"> {{ game.game.name}} </a> </td>
-	 <td align="center" > <img src="{{ game.game.pic_url}}" width=100 height=60/> </td>
-    <td align="center" > {{ game.perc_done}}% </td>
-    <td align="center" > {{ game.platinum}}  </td>
-    <td align="center" > {{ game.gold}}      </td>
-    <td align="center" > {{ game.silver}}    </td>
-    <td align="center" > {{ game.bronze}}    </td>
+{% for game, perc in user_game_info %}
+	<tr> 
+		
+		<td align="left"   width=10  style="border-right: 0px">{% if game.platinum  %} <img src="../../media/platinum.png"> {% endif %}</td>
+		<td align="left"   width=250 style="border-left:  0px">   <a href="game/{{ game.game.psn_id}}"> {{ game.game.name}} </a>  </td>
+		<td align="center" width=100>  <img src="{{ game.game.pic_url}}" width=100 /> </td>
+		<td align="left"   width=202> 
+			   <div style="background: url('../../media/barslide.png') repeat-x; position: relative; height: 15px; width: {{perc}}px">
+				<div style="background: url('../../media/progressbar-bg.gif') top:4px;left:0;width:202px;text-align:center;font-size:0.9em;font-weight:900;color:#fff" > {{ game.perc_done}}% </div>
+			</div>
+		</td>
+	 
+		<td align="center" width=20>{{ game.gold}}</td>
+		<td align="center" width=20>{{ game.silver}}</td>
+		<td align="center" >{{ game.bronze}}</td>
+		</div>
 	</tr>
 {% endfor %}
 </table>
