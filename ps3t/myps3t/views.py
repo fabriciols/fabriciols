@@ -14,7 +14,14 @@ def rankUser(request, userName):
 	user_trophy    = get_object_or_404(db.userTrophy, user=user)
 	user_game_info = get_list_or_404(db.userGameInfo, user=user)
 
+	perc_list = []
+
+	for gameInfo in user_game_info:
+		perc =  (( 202 * gameInfo.perc_done ) / 100)
+		perc_list.append([gameInfo, perc])
+
 	return render_to_response('userRank.html',
 				{'user'          : user,
 				 'user_trophy'   : user_trophy,
-				 'user_game_info': user_game_info})
+				 'user_game_info': perc_list,
+				})
