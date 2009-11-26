@@ -6,8 +6,19 @@ from django.shortcuts import render_to_response
 import ps3t.myps3t.models as db
 
 def rank(request):
-	return HttpResponse("Hello, world. You're at the poll index.")
 
+	users  = get_list_or_404(db.userTrophy.objects.all())
+
+	perc_list = []
+
+	for user in users:
+		print user.user.psn_id
+		print user.user.pic_url
+		perc =  (( 202 * user.perc_level) / 100)
+		perc_list.append([user, perc])
+
+	return render_to_response('Rank.html',
+				{'users' : perc_list })
 
 def rankUser(request, userName):
 	user           = get_object_or_404(db.userInfo, psn_id=userName)

@@ -56,36 +56,41 @@ table.datagrid td ul {margin:0 15px;padding:0;}
 
 </style>
 
+<title> Rank </title>
 
-<center><h2><img src="{{ user.pic_url}}" /> {{ user.psn_id }} </h2></center>
+<center><h2>Rank </h2></center>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <table class="datagrid" align="center">
 	<tr> 
-		<th align="center" > # </th>
-		<th align="left"   style="border-left: 0px; border-right: 0px"> Jogo </th>
-		<th align="center" style="border-left:0px; border-right:0px"> </th>
+		<th align="center" style="border-right:0px"> Nome </th>
+		<th align="center" style="border-left: 0px"> </th>
+		<th align="left"   style="border-left: 0px; border-right: 0px"> Level </th>
 		<th align="center" > % </th>
+		<th align="center" > <img src="../../media/platinum.png">     </th>
 		<th align="center" > <img src="../../media/gold.png">     </th>
 		<th align="center" > <img src="../../media/silver.png">   </th>
 		<th align="center" > <img src="../../media/bronze.png">   </th>
+		<th align="center" > <img src="../../media/total.png">   </th>
 	</tr>
-{% for game, perc in user_game_info %}
+{% for user, perc in users %}
 	<tr> 
 		
-		<td align="left"   width=10  style="border-right: 0px">{% if game.platinum  %} <img src="../../media/platinum.png"> {% endif %}</td>
-		<td align="center" style="border-left:0px; border-right:0px">  <img src="{{ game.game.pic_url}}" height=44 width=80 /> </td>
-		<td align="left"   width=250 style="border-left:  0px">   <a href="game/{{ game.game.psn_id}}"> {{ game.game.name}} </a>  </td>
-		<td align="left"   width=202> 
+		<td align="center" style="border-right:0px">  <img src="{{ user.user.pic_url}}" height=54 width=54 /> </td>
+		<td align="left"   width=10  style="border-left: 0px"> <a href="{{ user.user.psn_id }}"> {{ user.user.psn_id }} </a> </td>
+		<td align="left"   > {{ user.level }} </td>
+		<td align="left"   width=202>
 			   <div style="background: url('../../media/barslide.png') repeat-x; position: relative; height: 15px; width: {{perc}}px">
-				<div style="background: url('../../media/progressbar-bg.gif') top:4px;left:0;width:202px;text-align:center;font-size:0.9em;font-weight:900;color:#fff" > {{ game.perc_done}}% </div>
+				<div style="background: url('../../media/progressbar-bg.gif') top:4px;left:0;width:202px;text-align:center;font-size:0.9em;font-weight:900;color:#fff" > {{ user.perc_level }}% </div>
 			</div>
 		</td>
 	 
-		<td align="center" width=20>{{ game.gold}}</td>
-		<td align="center" width=20>{{ game.silver}}</td>
-		<td align="center" >{{ game.bronze}}</td>
+		<td align="center" >{{ user.platinum}}</td>
+		<td align="center" >{{ user.gold}}</td>
+		<td align="center" >{{ user.silver}}</td>
+		<td align="center" >{{ user.bronze}}</td>
+		<td align="center" >{{ user.total }}</td>
 		</div>
 	</tr>
 {% endfor %}
