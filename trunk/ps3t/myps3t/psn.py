@@ -105,6 +105,7 @@ def get_user_info(user, debug_offline=False):
 	return USER_DICT
 
 def get_user_games_list(user, debug_offline=False):
+	
 
 	if debug_offline is False:
 		URL = "http://profiles.us.playstation.com/playstation/psn/profile/%s/get_ordered_trophies_data" %user
@@ -136,7 +137,7 @@ def get_user_games_list(user, debug_offline=False):
 
 	GAME_LIST = []
 	GAME_DICT = {}
-			 
+			
 	for i in br.readlines():
 		if ER_GAME_NAME.match(i):
 			GAME_DICT["name"] = ER_GAME_NAME.search(i).group('game_name')
@@ -267,14 +268,16 @@ def get_user_game_info(user, game):
 
 	return TROPHY_LIST
 				
-USER_LIST = [ "fabriciols" ]
+USER_LIST = [ "fabriciols", "MizuBR", "raphaelmm", "danilo_penin", "ArturPC" ]
 
 for USER in USER_LIST:
 
-	USER_INFO      = get_user_info(USER, "user_site.txt")
+	#USER_INFO      = get_user_info(USER, "user_site.txt")
+	USER_INFO      = get_user_info(USER)
 	#pprint.pprint(USER_INFO)
 
-	GAME_USER_LIST = get_user_games_list(USER, "game_site.txt")
+	#GAME_USER_LIST = get_user_games_list(USER, "game_site.txt")
+	GAME_USER_LIST = get_user_games_list(USER)
 	#pprint.pprint(GAME_USER_LIST)
 
 	# Cria o modelo para a tabela do usuario
