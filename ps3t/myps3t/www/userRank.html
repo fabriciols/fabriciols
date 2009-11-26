@@ -1,3 +1,4 @@
+<script src="../../media/sorttable.js"></script>
 <style>
 body{
 	color:#fff;
@@ -44,15 +45,15 @@ a {color:#cdcdcd;font-weight:900;text-decoration:underline;}
 a:hover {color:#fff;text-decoration:underline;}
 a:active {color:#fff;}
 
-table.datagrid {border-collapse:separate;border-spacing:0px;empty-cells:show;border-right:1px solid #151515;font-size:0.9em; background:#222;padding:10px;margin-top:1px;}
-table.datagrid td {border:1px solid #151515;border-top:none;border-right:1px solid #151515;padding:7px 8px;color:#fff;}
-table.datagrid tr.datarow {background:#444;}
-table.datagrid th {padding:3px 8px;background:#151515;border-left:1px solid #333;border-top:1px solid #333;border-bottom:1px solid #000;border-right:1px solid #000;font-weight:900;color:#fff;}
+table{border-collapse:separate;border-spacing:0px;empty-cells:show;border-right:1px solid #151515;font-size:0.9em; background:#222;padding:10px;margin-top:1px;}
+table td {border:1px solid #151515;border-top:none;border-right:1px solid #151515;padding:7px 8px;color:#fff;}
+table tr.datarow {background:#444;}
+table th {padding:3px 8px;background:#151515;border-left:1px solid #333;border-top:1px solid #333;border-bottom:1px solid #000;border-right:1px solid #000;font-weight:900;color:#fff;}
 td.datacell-1, th.datacell-1 {text-align:left;}
 td.datacell-2, th.datacell-2 {text-align:center;}
 td.datacell-3, th.datacell-3 {text-align:right;}
-table.datagrid td em {color:#888;font-style:normal;}
-table.datagrid td ul {margin:0 15px;padding:0;}
+table td em {color:#888;font-style:normal;}
+table td ul {margin:0 15px;padding:0;}
 
 </style>
 
@@ -61,20 +62,31 @@ table.datagrid td ul {margin:0 15px;padding:0;}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<table class="datagrid" align="center">
-	<tr> 
+<table class="sortable" align="center">
+	<tr height="30" > 
 		<th align="center" > # </th>
 		<th align="left"   style="border-left: 0px; border-right: 0px"> Jogo </th>
 		<th align="center" style="border-left:0px; border-right:0px"> </th>
 		<th align="center" > % </th>
+		<th align="center" > <img src="../../media/total.png">   </th>
 		<th align="center" > <img src="../../media/gold.png">     </th>
 		<th align="center" > <img src="../../media/silver.png">   </th>
 		<th align="center" > <img src="../../media/bronze.png">   </th>
 	</tr>
-{% for game, perc in user_game_info %}
+{% for game, perc, total in user_game_info %}
 	<tr> 
 		
-		<td align="left"   width=10  style="border-right: 0px">{% if game.platinum  %} <img src="../../media/platinum.png"> {% endif %}</td>
+		<td align="left"   width=25  style="border-right: 0px">
+		{% if game.platinum  %} 
+			<img src="../../media/platinum.png"> 
+		{% else  %}
+			{% if game.platinum  %} 
+				<img src="../../media/100.png"> 
+			{% else %}
+				<div style="color: #222"> # </div> 
+		   {% endif %}
+		{% endif %}
+		</td>
 		<td align="center" style="border-left:0px; border-right:0px">  <img src="{{ game.game.pic_url}}" height=44 width=80 /> </td>
 		<td align="left"   width=250 style="border-left:  0px">   <a href="game/{{ game.game.psn_id}}"> {{ game.game.name}} </a>  </td>
 		<td align="left"   width=202> 
@@ -83,9 +95,10 @@ table.datagrid td ul {margin:0 15px;padding:0;}
 			</div>
 		</td>
 	 
-		<td align="center" width=20>{{ game.gold}}</td>
-		<td align="center" width=20>{{ game.silver}}</td>
-		<td align="center" >{{ game.bronze}}</td>
+		<td align="center" width=30>{{ total }}</td>
+		<td align="center" width=30>{{ game.gold}}</td>
+		<td align="center" width=30>{{ game.silver}}</td>
+		<td align="center" width=30>{{ game.bronze}}</td>
 		</div>
 	</tr>
 {% endfor %}

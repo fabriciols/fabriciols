@@ -29,7 +29,8 @@ def rankUser(request, userName):
 
 	for gameInfo in user_game_info:
 		perc =  (( 202 * gameInfo.perc_done ) / 100)
-		perc_list.append([gameInfo, perc])
+		trophy_total = gameInfo.platinum + gameInfo.gold + gameInfo.silver + gameInfo.bronze
+		perc_list.append([gameInfo, perc, trophy_total])
 
 	return render_to_response('userRank.html',
 				{'user'          : user,
