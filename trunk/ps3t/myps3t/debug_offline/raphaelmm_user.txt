@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -47,7 +43,7 @@
   <script type="text/javascript" src="http://fp.profiles.us.playstation.com/playstation/javascripts/application.js"></script>
 
 
-  <title>PlayStation.com - Public Profile - fabriciols</title>
+  <title>PlayStation.com - Public Profile - raphaelmm</title>
 
   <script type="text/javascript">
     function changeBgImage (image , elem) {
@@ -154,7 +150,7 @@
 	  
 	    
 	    
-	      fabriciols's Trophies
+	      raphaelmm's Trophies
 	    
 	  
     
@@ -205,15 +201,15 @@
 <div class="badge-full">
   
     <div id="id-avatar">
-      <img width="57" height="57" border="0" alt="" src="http://static-resource.np.community.playstation.net/avatar_s/WWS_J/J0009_s.png"/>
+      <img width="57" height="57" border="0" alt="" src="http://static-resource.np.community.playstation.net/avatar_s/WWS_E/E0005_s.png"/>
     </div>
     <div id="id-handle"> 
-      fabriciols
+      raphaelmm
     </div>
     <div id="id-compare">
       
         
-          <a href="http://www.us.playstation.com/psn/signin?url=http%3A%2F%2Fprofiles.us.playstation.com%2Fplaystation%2Fpsn%2Fprofile%2Fcompare%3Fids%3Dfabriciols">Compare With 
+          <a href="http://www.us.playstation.com/psn/signin?url=http%3A%2F%2Fprofiles.us.playstation.com%2Fplaystation%2Fpsn%2Fprofile%2Fcompare%3Fids%3Draphaelmm">Compare With 
 		        
 		          This User
 		        
@@ -235,23 +231,23 @@
   <div class="stitle">Level</div>
   <div id="starline">
   </div>
-  <div id="leveltext"> 8</div>
+  <div id="leveltext"> 4</div>
   <div style="clear:both"></div>
   <div id="barline">
-    <div id="progressbar" class="progress_bar" style="width: 89.4px"></div>
+    <div id="progressbar" class="progress_bar" style="width: 7.45px"></div>
   </div>
   <div class="progresstext">
-    60%
+    5%
   </div>
 </div>
   <div id="totaltrophies">
     <div class="stitle">TROPHIES</div>
     <div id="text">
-      <center>458</center>
+      <center>78</center>
     </div>
   </div>
   <div class="podium">
-      <div class="text platinum">2 Platinum</div>
-      <div class="text gold">12 Gold</div>
-      <div class="text silver">74 Silver</div>
-      <div class="text bronze">370 Bronze</div>
+      <div class="text platinum">0 Platinum</div>
+      <div class="text gold">0 Gold</div>
+      <div class="text silver">6 Silver</div>
+      <div class="text bronze">72 Bronze</div>

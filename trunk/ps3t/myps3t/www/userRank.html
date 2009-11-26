@@ -1,62 +1,8 @@
 <script src="../../media/sorttable.js"></script>
-<style>
-body{
-	color:#fff;
-	background:#323232 ;
-	font-family:Tahoma;
-	font-size:12px;
-	margin:0;
-	padding:0;
-}
 
-table.sitedefault, table.sitedefault td {
-  border-top        : 1px solid #CCC;
-  border-bottom     : 1px solid #CCC;
-  border-collapse   : collapse;
-  font              : 12px "Tahoma", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
-}
-table.sitedefault thead th, table.sitedefault tbody th {
-  color             : #666;  
-  padding           : 5px 10px;
-  border-top        : 1px solid #CCC;
-  border-bottom     : 1px solid #CCC;
-}
-table.sitedefault tbody th {
-  background        : #fafafb;
-  border-top        : 1px solid #CCC;
-  text-align        : left;
-  font-weight       : normal;
-}
-table.sitedefault tbody tr td {
-  padding           : 3px 5px;
-  color             : #666;
-}
+<LINK href="../../media/site.css" rel="stylesheet" type="text/css">
 
-table.sitedefault tbody tr:hover td {
-  color             : #454545;
-}
-table.sitedefault {
-  border            : none;
-  border-left       : 1px solid #CCC;
-  border-right      : 1px solid #CCC;
-}
-
-a {color:#cdcdcd;font-weight:900;text-decoration:underline;}
-a:hover {color:#fff;text-decoration:underline;}
-a:active {color:#fff;}
-
-table{border-collapse:separate;border-spacing:0px;empty-cells:show;border-right:1px solid #151515;font-size:0.9em; background:#222;padding:10px;margin-top:1px;}
-table td {border:1px solid #151515;border-top:none;border-right:1px solid #151515;padding:7px 8px;color:#fff;}
-table tr.datarow {background:#444;}
-table th {padding:3px 8px;background:#151515;border-left:1px solid #333;border-top:1px solid #333;border-bottom:1px solid #000;border-right:1px solid #000;font-weight:900;color:#fff;}
-td.datacell-1, th.datacell-1 {text-align:left;}
-td.datacell-2, th.datacell-2 {text-align:center;}
-td.datacell-3, th.datacell-3 {text-align:right;}
-table td em {color:#888;font-style:normal;}
-table td ul {margin:0 15px;padding:0;}
-
-</style>
-
+<title> Rank: {{ user.psn_id }} </title>
 
 <center><h2><img src="{{ user.pic_url}}" /> {{ user.psn_id }} </h2></center>
 
@@ -66,39 +12,41 @@ table td ul {margin:0 15px;padding:0;}
 	<tr height="30" > 
 		<th align="center" > # </th>
 		<th align="left"   style="border-left: 0px; border-right: 0px"> Jogo </th>
-		<th align="center" style="border-left:0px; border-right:0px"> </th>
 		<th align="center" > % </th>
-		<th align="center" > <img src="../../media/total.png">   </th>
 		<th align="center" > <img src="../../media/gold.png">     </th>
 		<th align="center" > <img src="../../media/silver.png">   </th>
 		<th align="center" > <img src="../../media/bronze.png">   </th>
+		<th align="center" width=42 > <img src="../../media/total.png" height=20>   </th>
 	</tr>
-{% for game, perc, total in user_game_info %}
+{% for game, perc, total, type in user_game_info %}
 	<tr> 
 		
-		<td align="left"   width=25  style="border-right: 0px">
 		{% if game.platinum  %} 
+			<td align="center"   width=25 sorttable_customkey=2>
 			<img src="../../media/platinum.png"> 
 		{% else  %}
-			{% if game.platinum  %} 
-				<img src="../../media/100.png"> 
+			{% if type %} 
+				<td align="center"   width=25 sorttable_customkey=1>
+				<img src="../../media/100.jpg"> 
 			{% else %}
-				<div style="color: #222"> # </div> 
+				<td align="center"   width=25 sorttable_customkey=0>
 		   {% endif %}
 		{% endif %}
 		</td>
-		<td align="center" style="border-left:0px; border-right:0px">  <img src="{{ game.game.pic_url}}" height=44 width=80 /> </td>
-		<td align="left"   width=250 style="border-left:  0px">   <a href="game/{{ game.game.psn_id}}"> {{ game.game.name}} </a>  </td>
+		<td align="left" >
+			<img src="{{ game.game.pic_url}}" height=44 width=80 />
+			<a href="game/{{ game.game.psn_id}}" > {{ game.game.name}} </a>
+		</td>
 		<td align="left"   width=202> 
 			   <div style="background: url('../../media/barslide.png') repeat-x; position: relative; height: 15px; width: {{perc}}px">
 				<div style="background: url('../../media/progressbar-bg.gif') top:4px;left:0;width:202px;text-align:center;font-size:0.9em;font-weight:900;color:#fff" > {{ game.perc_done}}% </div>
 			</div>
 		</td>
 	 
-		<td align="center" width=30>{{ total }}</td>
 		<td align="center" width=30>{{ game.gold}}</td>
 		<td align="center" width=30>{{ game.silver}}</td>
 		<td align="center" width=30>{{ game.bronze}}</td>
+		<td align="center" width=30>{{ total }}</td>
 		</div>
 	</tr>
 {% endfor %}
