@@ -7,8 +7,7 @@ import ps3t.myps3t.models as db
 import pprint
 
 def user_compare(user_a, user_b):
-	return user_a[2] - user_b[2]
-	
+	return user_a[1] - user_b[1]
 
 def rank(request):
 	
@@ -22,7 +21,6 @@ def rank(request):
 	perc_list = []
 
 	for user in users:
-		perc =  (( 202 * user.perc_level) / 100)
 		points_total  = user.platinum + user.gold + user.silver + user.bronze
 
 		points_total = ( user.platinum * PLATINUM_VALUE
@@ -30,7 +28,7 @@ def rank(request):
 							+ user.silver   * SILVER_VALUE 
 							+ user.bronze   * BRONZE_VALUE)
 
-		perc_list.append([user, perc, points_total])
+		perc_list.append([user, points_total])
 
 	perc_list.sort(user_compare, reverse=True)
 

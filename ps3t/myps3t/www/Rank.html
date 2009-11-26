@@ -20,26 +20,26 @@
 		<th align="center" width=45 > <img src="../../media/total.png" height=20 ></th>
 		<th align="center" width=55 > Pontos   </th>
 	</tr>
-{% for user, perc, point in users %}
+{% for user, point in users %}
 	<tr> 
 		
 		<td align="left" style="border-right:0px">
-			<img src="{{ user.user.pic_url}}" height=54 width=54 />
+			<img src="{{ user.user.pic_url}}" height=27 width=27 />
 			<a href="{{ user.user.psn_id }}"> {{ user.user.psn_id }} </a>
 		</td>
-		<td align="center"   width=50> {{ user.level }} </td>
-		<td align="left"   width=202>
-			   <div style="background: url('../../media/barslide.png') repeat-x; position: relative; height: 15px; width: {{perc}}px">
-				<div style="background: url('../../media/progressbar-bg.gif') top:4px;left:0;width:202px;text-align:center;font-size:0.9em;font-weight:900;color:#fff" > {{ user.perc_level }}% </div>
+		<td align="center" width=60> {{ user.level }} </td>
+		<td align="left"   width=100>
+			   <div style="background: url('../../media/barslide.png') repeat-x; position: relative; height: 15px; width: {{user.perc_level}}px">
+				<div style="background: url('../../media/progressbar-bg.gif') top:4px;left:0;width:100px;text-align:center;font-size:.9em;font-weight:900;color:#fff" > {{ user.perc_level }}% </div>
 			</div>
 		</td>
 	 
-		<td align="center" width=30 >{{ user.platinum}}</td>
-		<td align="center" width=30 >{{ user.gold}}</td>
-		<td align="center" width=30 >{{ user.silver}}</td>
-		<td align="center" width=30 >{{ user.bronze}}</td>
-		<td align="center" width=30 >{{ user.total }}</td>
-		<td align="center" width=30 >{{ point }}</td>
+			<td align="center" width=50 >{{ user.platinum}} <div style="left: 10; font-size:0.8em; color: #989"> +10 </div></td>
+		<td align="center" width=50 >{{ user.gold}}</td>
+		<td align="center" width=50 >{{ user.silver}}</td>
+		<td align="center" width=50 >{{ user.bronze}}</td>
+		<td align="center" width=50 >{{ user.total }}</td>
+		<td align="center" width=50 >{{ point }}</td>
 		</div>
 	</tr>
 {% endfor %}
