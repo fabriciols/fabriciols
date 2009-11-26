@@ -268,16 +268,18 @@ def get_user_game_info(user, game):
 
 	return TROPHY_LIST
 				
+debug_offline = True
+debug_dir = "debug_offline"
 USER_LIST = [ "fabriciols", "MizuBR", "raphaelmm", "danilo_penin", "ArturPC" ]
 
 for USER in USER_LIST:
 
 	#USER_INFO      = get_user_info(USER, "user_site.txt")
-	USER_INFO      = get_user_info(USER)
+	USER_INFO      = get_user_info(USER, "%s\\%s_user.txt" %(debug_dir, USER))
 	#pprint.pprint(USER_INFO)
 
 	#GAME_USER_LIST = get_user_games_list(USER, "game_site.txt")
-	GAME_USER_LIST = get_user_games_list(USER)
+	GAME_USER_LIST = get_user_games_list(USER, "%s\\%s_game.txt" %(debug_dir, USER))
 	#pprint.pprint(GAME_USER_LIST)
 
 	# Cria o modelo para a tabela do usuario

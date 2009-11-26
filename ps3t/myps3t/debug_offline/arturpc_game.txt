@@ -1,0 +1,152 @@
+  <div class="slot" 
+	  onMouseOver="$(this).addClassName('slotHover')"
+	  onMouseOut="$(this).removeClassName('slotHover')"
+  >
+    <div class="slotcontent" onmouseover="$(this).down('div.titlecompare').show();" onmouseout="$(this).down('div.titlecompare').hide();">
+      <div class="titlesection">
+        <div class="titlelogo">
+          <a href="/playstation/psn/profiles/ArturPC/trophies/283-Marvel-vs-Capcom-2">
+            <img border="0" alt="" src="http://trophy01.np.community.playstation.net/trophy/np/NPWR00517_00_90936F866C583739D0B13D6454E19C1A028C36F2/BF27C0EA1ABEF90329072D4271ABD0BBB9104579.PNG"/>
+          </a>
+        </div>
+        <div class="titletext">
+	      <table><tr><td>
+            <a href="/playstation/psn/profiles/ArturPC/trophies/283-Marvel-vs-Capcom-2">
+            <span class="gameTitleSortField">Marvel vs. Capcom 2</span>
+            </a>
+           </td></tr></table>
+        </div>
+        <div class="titlecompare" style="display:none" onClick="window.location=$(this).down('a').href">
+           <a class="compareLink" href="http://www.us.playstation.com/psn/signin?url=http%3A%2F%2Fprofiles.us.playstation.com%2Fplaystation%2Fpsn%2Fprofile%2Ftrophies%2F283-Marvel-vs-Capcom-2%2Fcompare%3Fid%3DArturPC">Compare</a>
+        </div>
+      </div>
+      <div class="progress">
+        <div class="barholder">
+            <div class="progress_bar progress_bar_blue" style="width: 0.0px"></div>
+        </div>
+        <div class="progresstext">
+          <span class="gameProgressSortField">0</span>%
+        </div>
+      </div>
+
+      <div class="trophycount collection">
+        <center>
+          <div class="trophycontent">
+            <span class="gameTrophyCountSortField">0
+            </span>
+          </div>
+        </center>
+      </div>
+      
+      <div class="trophyholder trophycountholder">
+        <div class="trophycount normal">
+          <center>
+            <div class="trophycontent">
+              0
+            </div>
+          </center>
+        </div>
+        <div class="trophycount normal">
+          <center>
+            <div class="trophycontent">
+              0
+            </div>
+          </center>
+        </div>
+        <div class="trophycount normal">
+          <center>
+            <div class="trophycontent">
+              0
+            </div>
+          </center>
+        </div>
+        <div class="trophycount normal">
+          <center>
+            <div class="trophycontent">
+              0
+            </div>
+          </center>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  
+
+  <div class="slot" 
+	  onMouseOver="$(this).addClassName('slotHover')"
+	  onMouseOut="$(this).removeClassName('slotHover')"
+  >
+    <div class="slotcontent" onmouseover="$(this).down('div.titlecompare').show();" onmouseout="$(this).down('div.titlecompare').hide();">
+      <div class="titlesection">
+        <div class="titlelogo">
+          <a href="/playstation/psn/profiles/ArturPC/trophies/11005-Burnout-Paradise">
+            <img border="0" alt="" src="http://trophy01.np.community.playstation.net/trophy/np/NPWR00234_00_B8969C5B3F3361BC2680E954A77FF79D8403B315/04238E4933396903ED8F1F6275AFF6069B3AA056.PNG"/>
+          </a>
+        </div>
+        <div class="titletext">
+	      <table><tr><td>
+            <a href="/playstation/psn/profiles/ArturPC/trophies/11005-Burnout-Paradise">
+            <span class="gameTitleSortField">Burnout™ Paradise</span>
+            </a>
+           </td></tr></table>
+        </div>
+        <div class="titlecompare" style="display:none" onClick="window.location=$(this).down('a').href">
+           <a class="compareLink" href="http://www.us.playstation.com/psn/signin?url=http%3A%2F%2Fprofiles.us.playstation.com%2Fplaystation%2Fpsn%2Fprofile%2Ftrophies%2F11005-Burnout-Paradise%2Fcompare%3Fid%3DArturPC">Compare</a>
+        </div>
+      </div>
+      <div class="progress">
+        <div class="barholder">
+            <div class="progress_bar progress_bar_blue" style="width: 10.43px"></div>
+        </div>
+        <div class="progresstext">
+          <span class="gameProgressSortField">7</span>%
+        </div>
+      </div>
+
+      <div class="trophycount collection">
+        <center>
+          <div class="trophycontent">
+            <span class="gameTrophyCountSortField">10
+            </span>
+          </div>
+        </center>
+      </div>
+      
+      <div class="trophyholder trophycountholder">
+        <div class="trophycount normal">
+          <center>
+            <div class="trophycontent">
+              9
+            </div>
+          </center>
+        </div>
+        <div class="trophycount normal">
+          <center>
+            <div class="trophycontent">
+              1
+            </div>
+          </center>
+        </div>
+        <div class="trophycount normal">
+          <center>
+            <div class="trophycontent">
+              0
+            </div>
+          </center>
+        </div>
+        <div class="trophycount normal">
+          <center>
+            <div class="trophycontent">
+              0
+            </div>
+          </center>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+

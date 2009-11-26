@@ -1,60 +1,6 @@
-<style>
-body{
-	color:#fff;
-	background:#323232 ;
-	font-family:Tahoma;
-	font-size:12px;
-	margin:0;
-	padding:0;
-}
+<script src="../media/sorttable.js"></script>
 
-table.sitedefault, table.sitedefault td {
-  border-top        : 1px solid #CCC;
-  border-bottom     : 1px solid #CCC;
-  border-collapse   : collapse;
-  font              : 12px "Tahoma", "Bitstream Vera Sans", Verdana, Helvetica, sans-serif;
-}
-table.sitedefault thead th, table.sitedefault tbody th {
-  color             : #666;  
-  padding           : 5px 10px;
-  border-top        : 1px solid #CCC;
-  border-bottom     : 1px solid #CCC;
-}
-table.sitedefault tbody th {
-  background        : #fafafb;
-  border-top        : 1px solid #CCC;
-  text-align        : left;
-  font-weight       : normal;
-}
-table.sitedefault tbody tr td {
-  padding           : 3px 5px;
-  color             : #666;
-}
-
-table.sitedefault tbody tr:hover td {
-  color             : #454545;
-}
-table.sitedefault {
-  border            : none;
-  border-left       : 1px solid #CCC;
-  border-right      : 1px solid #CCC;
-}
-
-a {color:#cdcdcd;font-weight:900;text-decoration:underline;}
-a:hover {color:#fff;text-decoration:underline;}
-a:active {color:#fff;}
-
-table.datagrid {border-collapse:separate;border-spacing:0px;empty-cells:show;border-right:1px solid #151515;font-size:0.9em; background:#222;padding:10px;margin-top:1px;}
-table.datagrid td {border:1px solid #151515;border-top:none;border-right:1px solid #151515;padding:7px 8px;color:#fff;}
-table.datagrid tr.datarow {background:#444;}
-table.datagrid th {padding:3px 8px;background:#151515;border-left:1px solid #333;border-top:1px solid #333;border-bottom:1px solid #000;border-right:1px solid #000;font-weight:900;color:#fff;}
-td.datacell-1, th.datacell-1 {text-align:left;}
-td.datacell-2, th.datacell-2 {text-align:center;}
-td.datacell-3, th.datacell-3 {text-align:right;}
-table.datagrid td em {color:#888;font-style:normal;}
-table.datagrid td ul {margin:0 15px;padding:0;}
-
-</style>
+<LINK href="../media/site.css" rel="stylesheet" type="text/css">
 
 <title> Rank </title>
 
@@ -62,35 +8,38 @@ table.datagrid td ul {margin:0 15px;padding:0;}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<table class="datagrid" align="center">
-	<tr> 
-		<th align="center" style="border-right:0px"> Nome </th>
-		<th align="center" style="border-left: 0px"> </th>
-		<th align="left"   style="border-left: 0px; border-right: 0px"> Level </th>
+<table class="sortable" align="center">
+	<tr height=35> 
+		<th align="center" > Nome </th>
+		<th align="center" > <img src="../../media/level.png" height=25> </th>
 		<th align="center" > % </th>
 		<th align="center" > <img src="../../media/platinum.png">     </th>
 		<th align="center" > <img src="../../media/gold.png">     </th>
 		<th align="center" > <img src="../../media/silver.png">   </th>
 		<th align="center" > <img src="../../media/bronze.png">   </th>
-		<th align="center" > <img src="../../media/total.png">   </th>
+		<th align="center" width=45 > <img src="../../media/total.png" height=20 ></th>
+		<th align="center" width=55 > Pontos   </th>
 	</tr>
-{% for user, perc in users %}
+{% for user, perc, point in users %}
 	<tr> 
 		
-		<td align="center" style="border-right:0px">  <img src="{{ user.user.pic_url}}" height=54 width=54 /> </td>
-		<td align="left"   width=10  style="border-left: 0px"> <a href="{{ user.user.psn_id }}"> {{ user.user.psn_id }} </a> </td>
-		<td align="left"   > {{ user.level }} </td>
+		<td align="left" style="border-right:0px">
+			<img src="{{ user.user.pic_url}}" height=54 width=54 />
+			<a href="{{ user.user.psn_id }}"> {{ user.user.psn_id }} </a>
+		</td>
+		<td align="center"   width=50> {{ user.level }} </td>
 		<td align="left"   width=202>
 			   <div style="background: url('../../media/barslide.png') repeat-x; position: relative; height: 15px; width: {{perc}}px">
 				<div style="background: url('../../media/progressbar-bg.gif') top:4px;left:0;width:202px;text-align:center;font-size:0.9em;font-weight:900;color:#fff" > {{ user.perc_level }}% </div>
 			</div>
 		</td>
 	 
-		<td align="center" >{{ user.platinum}}</td>
-		<td align="center" >{{ user.gold}}</td>
-		<td align="center" >{{ user.silver}}</td>
-		<td align="center" >{{ user.bronze}}</td>
-		<td align="center" >{{ user.total }}</td>
+		<td align="center" width=30 >{{ user.platinum}}</td>
+		<td align="center" width=30 >{{ user.gold}}</td>
+		<td align="center" width=30 >{{ user.silver}}</td>
+		<td align="center" width=30 >{{ user.bronze}}</td>
+		<td align="center" width=30 >{{ user.total }}</td>
+		<td align="center" width=30 >{{ point }}</td>
 		</div>
 	</tr>
 {% endfor %}
