@@ -1790,28 +1790,28 @@
         <div class="trophycount normal">
           <center>
             <div class="trophycontent">
-              0
+              10
             </div>
           </center>
         </div>
         <div class="trophycount normal">
           <center>
             <div class="trophycontent">
-              0
+              10
             </div>
           </center>
         </div>
         <div class="trophycount normal">
           <center>
             <div class="trophycontent">
-              0
+             10
             </div>
           </center>
         </div>
         <div class="trophycount normal">
           <center>
             <div class="trophycontent">
-              0
+              10
             </div>
           </center>
         </div>

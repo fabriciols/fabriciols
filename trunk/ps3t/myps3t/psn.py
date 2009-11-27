@@ -268,7 +268,12 @@ def get_user_game_info(user, game):
 
 	return TROPHY_LIST
 				
+PARTIAL = "PARTIAL"
+MAJOR   = "MAJOR"
+
 debug_offline = True
+updateType = sys.argv[1]
+
 debug_dir = "debug_offline"
 USER_LIST = [ "fabriciols", "MizuBR", "raphaelmm", "danilo_penin", "ArturPC" ]
 
@@ -302,6 +307,9 @@ for USER in USER_LIST:
 	if len(userTrophy_db) is 0:
 		print "New trophy info for user: %s" %USER_INFO["psn_id"]
 
+		userLastTrophy_db = db.userLastTrophy()
+		userLastTrophy_db.save()
+
 		userTrophy_db = db.userTrophy(
 										user       = user_db,
 										platinum   = USER_INFO["platinum"],
@@ -310,11 +318,57 @@ for USER in USER_LIST:
 										bronze     = USER_INFO["bronze"],
 										total      = USER_INFO["total"],
 										level      = USER_INFO["level"],
-										perc_level = USER_INFO["perc_level"])
+										perc_level = USER_INFO["perc_level"],
+										last_trophy= userLastTrophy_db)
 		
 		userTrophy_db.save()
 	else:
+		
+
 		userTrophy_db = userTrophy_db[0]
+
+		# Se a atualizacao for MAJOR
+		# atribuimos :
+		# last    vira MAJOR;
+		# major   vira ATUAL;
+		if updateType == MAJOR:
+			print "Update %s in user %s" %(updateType, USER_INFO["psn_id"])
+			userTrophy_db.last_trophy.platinum   = userTrophy_db.platinum
+			userTrophy_db.last_trophy.gold       = userTrophy_db.gold
+			userTrophy_db.last_trophy.silver     = userTrophy_db.silver
+			userTrophy_db.last_trophy.bronze     = userTrophy_db.bronze
+			userTrophy_db.last_trophy.total      = userTrophy_db.total
+			userTrophy_db.last_trophy.level      = userTrophy_db.level
+			userTrophy_db.last_trophy.perc_level = userTrophy_db.perc_level
+			# Salva a data para termos referencia
+			userTrophy_db.last_trophy.date_update = userTrophy_db.date_update
+
+			userTrophy_db.last_trophy.save()
+
+			userTrophy_db.platinum   = USER_INFO["platinum"]
+			userTrophy_db.gold       = USER_INFO["gold"]
+			userTrophy_db.silver     = USER_INFO["silver"]
+			userTrophy_db.bronze     = USER_INFO["bronze"]
+			userTrophy_db.total      = USER_INFO["total"]
+			userTrophy_db.level      = USER_INFO["level"]
+			userTrophy_db.perc_level = USER_INFO["perc_level"]
+			userTrophy_db.date_update = datetime.now()
+
+		# Se for PARTIAL atualizamos so o valor total
+		elif updateType == PARTIAL:
+			print "Update %s in user %s" %(updateType, USER_INFO["psn_id"])
+
+			userTrophy_db.platinum   = USER_INFO["platinum"]
+			userTrophy_db.gold       = USER_INFO["gold"]
+			userTrophy_db.silver     = USER_INFO["silver"]
+			userTrophy_db.bronze     = USER_INFO["bronze"]
+			userTrophy_db.total      = USER_INFO["total"]
+			userTrophy_db.level      = USER_INFO["level"]
+			userTrophy_db.perc_level = USER_INFO["perc_level"]
+			userTrophy_db.date_update = datetime.now()
+
+		userTrophy_db.save()
+
 
 	for game in GAME_USER_LIST:
 		game_db = db.gameInfo.objects.filter(psn_id=game["id"])
