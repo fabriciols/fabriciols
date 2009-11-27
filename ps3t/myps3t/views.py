@@ -1,5 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import get_list_or_404
 from django.shortcuts import render_to_response
@@ -49,7 +50,17 @@ def setUserDif(user):
 
 
 def rankUser(request, userName):
-	user           = get_object_or_404(db.userInfo, psn_id=userName)
+
+	try:
+		user = db.userInfo.objects.get(psn_id=userName)
+	except db.userInfo.DoesNotExist:
+
+		queue = db.updateQueue.objects.all()
+
+		return render_to_response('noUserRank.html',
+								{'user'  : userName,
+								'queue'  : queue})
+
 	user_trophy    = get_object_or_404(db.userTrophy, user=user)
 	user_game_info = get_list_or_404(db.userGameInfo, user=user)
 

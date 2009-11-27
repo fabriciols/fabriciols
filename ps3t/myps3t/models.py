@@ -47,3 +47,9 @@ class userGameInfo(models.Model):
 	gold    = models.IntegerField()
 	silver  = models.IntegerField()
 	bronze  = models.IntegerField()
+
+class updateQueue(models.Model):
+	psn_id  = models.CharField(max_length=30, blank=True, default="0")
+	type	  = models.IntegerField()
+	date    = models.DateTimeField(default=datetime.now, blank=True)
+	
