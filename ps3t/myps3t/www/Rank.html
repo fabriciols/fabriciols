@@ -11,35 +11,49 @@
 <table class="sortable" align="center">
 	<tr height=35> 
 		<th align="center" > Nome </th>
-		<th align="center" > <img src="../../media/level.png" height=25> </th>
+		<th align="right" style="border-right: 0px"> <img src="../../media/level.png" height=25> </th>
+		<th align="center" style="border-left : 0px" width=12> <img src="../../media/up.png" > </th>
 		<th align="center" > % </th>
-		<th align="center" > <img src="../../media/platinum.png">     </th>
-		<th align="center" > <img src="../../media/gold.png">     </th>
-		<th align="center" > <img src="../../media/silver.png">   </th>
-		<th align="center" > <img src="../../media/bronze.png">   </th>
-		<th align="center" width=45 > <img src="../../media/total.png" height=20 ></th>
-		<th align="center" width=55 > Pontos   </th>
+		<th align="right"   style="border-right: 0px"> <img src="../../media/platinum.png">     </th>
+		<th align="center" style="border-left: 0px"> <img src="../../media/up.png" > </th>
+		<th align="center" style="border-right: 0px"> <img src="../../media/gold.png">     </th>
+		<th align="center" style="border-left: 0px"> <img src="../../media/up.png" > </th>
+		<th align="center" style="border-right: 0px"> <img src="../../media/silver.png">   </th>
+		<th align="center" style="border-left: 0px"> <img src="../../media/up.png" > </th>
+		<th align="center" style="border-right: 0px"> <img src="../../media/bronze.png">   </th>
+		<th align="center" style="border-left: 0px"> <img src="../../media/up.png" > </th>
+		<th align="center" style="border-right: 0px"> <img src="../../media/total.png" height=20 ></th>
+		<th align="center" style="border-left: 0px"> <img src="../../media/up.png" > </th>
+		<th align="center" style="border-right: 0px"> Pontos   </th>
+		<th align="center" style="border-left: 0px"> <img src="../../media/up.png" > </th>
 	</tr>
 {% for user, point in users %}
 	<tr> 
 		
 		<td align="left" style="border-right:0px">
-			<img src="{{ user.user.pic_url}}" height=27 width=27 />
+			<img src="{{ user.user.pic_url}}" height=20 />
 			<a href="{{ user.user.psn_id }}"> {{ user.user.psn_id }} </a>
 		</td>
-		<td align="center" width=60> {{ user.level }} </td>
-		<td align="left"   width=100>
+		<td align="right" style="border-right: 0px;"> {{ user.level }} </td>
+		<td align="center" style="border-left: 0px;"> {% if user.last_trophy.level %} {{ user.last_trophy.left }} {%endif %} </td>
+		<td align="left"   style="border-right: 0px">
 			   <div style="background: url('../../media/barslide.png') repeat-x; position: relative; height: 15px; width: {{user.perc_level}}px">
 				<div style="background: url('../../media/progressbar-bg.gif') top:4px;left:0;width:100px;text-align:center;font-size:.9em;font-weight:900;color:#fff" > {{ user.perc_level }}% </div>
 			</div>
 		</td>
 	 
-			<td align="center" width=50 >{{ user.platinum}} <div style="left: 10; font-size:0.8em; color: #989"> +10 </div></td>
-		<td align="center" width=50 >{{ user.gold}}</td>
-		<td align="center" width=50 >{{ user.silver}}</td>
-		<td align="center" width=50 >{{ user.bronze}}</td>
-		<td align="center" width=50 >{{ user.total }}</td>
-		<td align="center" width=50 >{{ point }}</td>
+		<td align="right" style="border-right: 0px;">{{ user.platinum}}</td>
+		<td align="center" style="border-left: 0px;"> {% if user.last_trophy.platinum%} +{{ user.last_trophy.platinum}} {%endif %} </td>
+		<td align="right" style="border-right: 0px;">{{ user.gold}}</td>
+		<td align="center" style="border-left: 0px; font-size:0.8em; color: #799"> {% if user.last_trophy.gold %}    +{{ user.last_trophy.gold }} {%endif %} </td>
+		<td align="right" style="border-right: 0px;">{{ user.silver}}</td>
+		<td align="center" style="border-left: 0px;"> {% if user.last_trophy.silver %}  +{{ user.last_trophy.silver}} {%endif %} </td>
+		<td align="right" style="border-right: 0px;">{{ user.bronze}}</td>
+		<td align="center" style="border-left: 0px;"> {% if user.last_trophy.bronze %}  +{{ user.last_trophy.bronze }} {%endif %} </td>
+		<td align="right" style="border-right: 0px;">{{ user.total }}</td>
+		<td align="center" style="border-left: 0px;"> {% if user.last_trophy.total %}   +{{ user.last_trophy.total }} {%endif %} </td>
+		<td align="right" style="border-right: 0px;">{{ point }}</td>
+		<td align="center" style="border-left: 0px;"> {% if user.last_trophy.point %}   +{{ user.last_trophy.point }} {%endif %} </td>
 		</div>
 	</tr>
 {% endfor %}

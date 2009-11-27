@@ -7,7 +7,7 @@ body{
 	padding:0;
 }
 
-a {color:#cdcdcd;font-weight:900;text-decoration:underline;}
+a {color:#cdcdcd;font-weight:900;text-decoration:none;}
 a:hover {color:#fff;text-decoration:underline;}
 a:active {color:#fff;}
 

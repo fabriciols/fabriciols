@@ -28,12 +28,25 @@ def rank(request):
 							+ user.silver   * SILVER_VALUE 
 							+ user.bronze   * BRONZE_VALUE)
 
+		setUserDif(user)
+
 		perc_list.append([user, points_total])
 
 	perc_list.sort(user_compare, reverse=True)
 
 	return render_to_response('Rank.html',
 				{'users' : perc_list })
+
+def setUserDif(user):
+
+	user.last_trophy.platinum   = user.platinum   - user.last_trophy.platinum
+	user.last_trophy.gold       = user.gold       - user.last_trophy.gold
+	user.last_trophy.silver     = user.silver     - user.last_trophy.silver
+	user.last_trophy.bronze     = user.bronze     - user.last_trophy.bronze
+	user.last_trophy.total      = user.total      - user.last_trophy.total
+	user.last_trophy.level      = user.level      - user.last_trophy.level
+	user.last_trophy.perc_level = user.perc_level - user.last_trophy.perc_level
+
 
 def rankUser(request, userName):
 	user           = get_object_or_404(db.userInfo, psn_id=userName)

@@ -248,6 +248,6 @@
   </div>
   <div class="podium">
       <div class="text platinum">1 Platinum</div>
-      <div class="text gold">2 Gold</div>
+      <div class="text gold">12 Gold</div>
       <div class="text silver">38 Silver</div>
       <div class="text bronze">147 Bronze</div>
