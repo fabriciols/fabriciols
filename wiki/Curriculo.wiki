@@ -24,16 +24,13 @@ Concluído em *2008*
 
 === Programação ===
 
-- C/C++        (Avançado)
-
-- Shell-Script (Avançado)
-
-- Python       (Intermediário)
-
-- 
+# C/C++        (Avançado)
+# Shell-Script (Avançado)
+# Python       (Intermediário)
+ 
 
 === Administração ===
 
-- Proxy (squid)
-- DNS   (bind)
-- Email (sendmail)
+# Proxy (squid)
+# DNS   (bind)
+# Email (sendmail)
