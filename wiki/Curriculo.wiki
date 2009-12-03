@@ -23,9 +23,8 @@ Concluído em *2008*
 === Projeto de Conclusão de Curso ===
 
 Projeto *M-FIT*, premiado na [http://www.fei.edu.br/noticias/releases/Releases2008/067_Luciana_XIII_Expocom.htm Expocom] com a *Melhor Interface Gráfica* e *Projeto Mercadológico*
-[http://code.google.com/p/m-fit/ Código fonte do projeto].
 
-[http://www.fei.edu.br/noticias/releases/Releases2008/067_Luciana_XIII_Expocom.htm ]
+[http://code.google.com/p/m-fit/ Código fonte do projeto].
 
 == Qualificações Técnicas ==
 
