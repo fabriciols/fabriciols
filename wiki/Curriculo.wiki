@@ -1,1 +1,39 @@
 = Fabrício Lopes de Souza =
+
+== Dados Pessoais ==
+
+*Nome*: Fabrício Lopes de Souza.
+
+*Data de Nascimento*: 17 de Outubro de 1986.
+
+*Naturalidade*: Guarulhos/SP
+
+Residindo em: São Paulo/SP 
+
+e-mail Pessoal: linux.fabricio@gmail.com
+
+== Formação Acadêmica ==
+
+Centro Universitário da *FEI*
+
+Bacharel em *Ciências da Computação*
+
+Concluído em *2008*
+
+== Qualificações Técnicas ==
+
+=== Programação ===
+
+- C/C++        (Avançado)
+
+- Shell-Script (Avançado)
+
+- Python       (Intermediário)
+
+- 
+
+=== Administração ===
+
+- Proxy (squid)
+- DNS   (bind)
+- Email (sendmail)
