@@ -26,9 +26,12 @@ Projeto *M-FIT*, que implementa um método de realizar automaticamente detecçã
 
 Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docentes.htm#PSR Paulo Sérgio].
 
-Premiado na [http://www.fei.edu.br/noticias/releases/Releases2008/067_Luciana_XIII_Expocom.htm Expocom] com os prêmios de *Melhor Interface Gráfica* e *Projeto Mercadológico*
+[http://code.google.com/p/m-fit/ Portal do projeto].
 
-[http://code.google.com/p/m-fit/ Código fonte do projeto].
+*Prêmios*
+
+ # M-FIT (Motion Finder Integration); Premio Melhor Aplicabilidade no Mercado; XIII EXPOCOM 08, Centro Universitário da FEI.
+ # M-FIT (Motion Finder Integration); Premio Melhor Interface; XIII EXPOCOM 08, Centro Universitário da FEI.
 
 == Qualificações Técnicas ==
 
