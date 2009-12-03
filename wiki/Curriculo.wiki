@@ -20,17 +20,24 @@ Bacharel em *Ciências da Computação*
 
 Concluído em *2008*
 
+=== Projeto de Conclusão de Curso ===
+
+Projeto *M-FIT*, premiado na [http://www.fei.edu.br/noticias/releases/Releases2008/067_Luciana_XIII_Expocom.htm Expocom] com a *Melhor Interface Gráfica* e *Projeto Mercadológico*
+[http://code.google.com/p/m-fit/ Código fonte do projeto].
+
+[http://www.fei.edu.br/noticias/releases/Releases2008/067_Luciana_XIII_Expocom.htm ]
+
 == Qualificações Técnicas ==
 
 === Programação ===
 
-# C/C++        (Avançado)
-# Shell-Script (Avançado)
-# Python       (Intermediário)
+ # C/C++        (Avançado)
+ # Shell-Script (Avançado)
+ # Python       (Intermediário)
  
 
 === Administração ===
 
-# Proxy (squid)
-# DNS   (bind)
-# Email (sendmail)
+ # Proxy (squid)
+ # DNS   (bind)
+ # Email (sendmail)
