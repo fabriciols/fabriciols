@@ -7,16 +7,77 @@ body{
 	padding:0;
 }
 
-a {color:#cdcdcd;font-weight:900;text-decoration:none;}
-a:hover {color:#fff;text-decoration:underline;}
+.login{
+	vertical-align:top;	
+	font-size:15px;
+}
+
+.meio{
+	vertical-align:middle;
+}
+
+.header{
+	border=0px;
+}
+
+.logout{
+	font-size:10px;
+}
+
+a {
+	color:#cdcdcd;font-weight:900;
+	text-decoration:none;
+}
+a:hover {
+	color:#fff;
+	text-decoration:underline;
+}
 a:active {color:#fff;}
 
-table {border-collapse:separate;border-spacing:0px;empty-cells:show;border-right:1px solid #151515;font-size:0.9em; background:#222;padding:10px;margin-top:0px;}
-table td {border:1px solid #151515;border-top:none;border-right:1px solid #151515;padding:1px 1px;color:#fff;}
-table tr.datarow {background:#444;}
-table th {padding:3px 8px;background:#151515;border-left:1px solid #333;border-top:1px solid #333;border-bottom:1px solid #000;border-right:1px solid #000;font-weight:900;color:#fff;}
+table {
+	border-collapse:separate;
+	border-spacing:0px;
+	empty-cells:show;
+	border-right:1px solid #151515;
+	font-size:0.9em; 
+	background:#222;
+	padding:10px;
+	margin-top:0px;
+}
+
+table td {
+	border:1px solid #151515;
+	border-top:none;
+	border-right:1px solid #151515;
+	padding:1px 1px;color:#fff;
+}
+
+table tr.datarow {
+	background:#444;
+}
+
+table th {
+	padding:3px 8px;
+	background:#151515;
+	border-left:1px solid #333;
+	border-top:1px solid #333;
+	border-bottom:1px solid #000;
+	border-right:1px solid #000;
+	font-weight:900;
+	color:#fff;
+}
+
 td.datacell-1, th.datacell-1 {text-align:left;}
 td.datacell-2, th.datacell-2 {text-align:center;}
 td.datacell-3, th.datacell-3 {text-align:right;}
-table td em {color:#888;font-style:normal;}
-table td ul {margin:0px;padding:0;}
+
+table td em {
+	color:#888;
+	font-style:normal;
+}
+
+table td ul {
+	margin:0px;
+	padding:0;
+}
+
