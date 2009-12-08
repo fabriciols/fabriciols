@@ -75,6 +75,7 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
 == EXPERIÊNCIAS PROFISSIONAIS ==
 
 - Maio/2005 - Março/2007
+
 AMIXSI - Suporte Técnico Windows/Linux
 
  # Responsável pela administração de servidores Linux (Proxy/Dns/Email/Firewall);
@@ -82,6 +83,7 @@ AMIXSI - Suporte Técnico Windows/Linux
  # Administração de software de controle de rede;
 
 - Abril/2007 - Atual
+
 Itautec - Analista de Sistemas Junior
 
  # Desenvolvimento de aplicativo de automação comercial (PDV) em C;
