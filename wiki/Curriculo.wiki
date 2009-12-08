@@ -76,7 +76,7 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
 
 - Maio/2005 - Março/2007
 
-AMIXSI - Suporte Técnico Windows/Linux
+*AMIXSI* - Suporte Técnico Windows/Linux
 
  # Responsável pela administração de servidores Linux (Proxy/Dns/Email/Firewall);
  # Criação de Scripts para automatizar processos (Shell-Script);
@@ -84,8 +84,9 @@ AMIXSI - Suporte Técnico Windows/Linux
 
 - Abril/2007 - Atual
 
-Itautec - Analista de Sistemas Junior
+*Itautec* - Analista de Sistemas Junior
 
  # Desenvolvimento de aplicativo de automação comercial (PDV) em C;
- # Comunicação com Impressoras Fiscais (ECF)
- # Desenvolvimento de script para instalação de sistema linux básico; 
+ # Experiência com Impressoras Fiscais (ECF);
+ # Desenvolvimento de script para instalação de sistema linux básico;
+ # Desenvolvimento certificado com CMMI Nivel 2;
