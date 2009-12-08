@@ -39,6 +39,8 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
 
 == Qualificações Técnicas ==
 
+ # Inglês Técnico.
+
 === Programação ===
 
  # C/C++ (Avançado);
