@@ -90,3 +90,16 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
  # Experiência com Impressoras Fiscais (ECF);
  # Desenvolvimento de script para instalação de sistema linux básico;
  # Desenvolvimento certificado com CMMI Nivel 2;
+
+== INFORMAÇÕES PESSOAIS ==
+
+ # Proativo, dinâmico, bem informado, criativo, auto-didata;
+ # Preferência pessoal por Linux e suas ferramentas;
+ # Participante de várias comunidades/listas de discussão de Software Livre: 
+   # VivaoLinux
+   # Underlinux
+   # [Shell-Script]
+ # Criação de vários projetos de código aberto (Python)
+   # http://code.google.com/p/fabriciols/
+ # Adota a programação não como só como *trabalho* e sim também como *diversão*
+ # Atualizado com as novas tecnologias
