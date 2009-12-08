@@ -101,5 +101,5 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
    # [Shell-Script]
  # Criação de vários projetos de código aberto (Python)
    # http://code.google.com/p/fabriciols/
- # Adota a programação não como só como *trabalho* e sim também como *diversão*
+ # Adota a programação como *trabalho* e também como *diversão*
  # Atualizado com as novas tecnologias
