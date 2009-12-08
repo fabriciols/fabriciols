@@ -41,18 +41,21 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
 
 === Programação ===
 
- # C/C++        (Avançado)
+ # C/C++ (Avançado);
    # Experiência de 3 anos em C;
    # Projetos concluídos em C++;
- # Shell-Script (Avançado)
-   # Automação de Processos
-   # Instalador de sistemas básicos (initrd/kernel)
-
- # Python       (Intermediário)
-   # Django
-   # Criação de robôs para WEB
+   # Desenvolvimento de Interfaces gráficas com QT
+ # Shell-Script (Avançado);
+   # Automação de Processos;
+   # Instalador de sistemas básicos;
+   # Manipulação de Texto (SED/AWK/Expressões Regulares);
+ # Python (Intermediário);
+   # Django;
+   # Criação de robôs para WEB;
+   # Automação de Processos (Windows/Linux);
+ # Java (Básico)
+   # Projetos Acadêmicos em plataforma Celular
  
-
 === Administração ===
  # Administração de Sistemas Linux
  # RedHat/Fedora/Slackware/Debian/Gentoo
