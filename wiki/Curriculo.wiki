@@ -1,5 +1,4 @@
 = Fabrício Lopes de Souza =
-= Não Finalizado =
 
 == Dados Pessoais ==
 
@@ -18,7 +17,6 @@
  * E.T.E Profº Aprígio Gonzaga
 
 Técnico em *Eletrônica* - Concluido em *2003*.
-
 
  * Centro Universitário da *FEI*
 
@@ -98,7 +96,7 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
  # Participante de várias comunidades/listas de discussão de Software Livre: 
    # VivaoLinux
    # Underlinux
-   # [Shell-Script]
+   # Lista Shell-Script
  # Criação de vários projetos de código aberto (Python)
    # http://code.google.com/p/fabriciols/
  # Adota a programação como *trabalho* e também como *diversão*
