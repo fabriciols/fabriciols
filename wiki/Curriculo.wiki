@@ -55,11 +55,26 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
    # Automação de Processos (Windows/Linux);
  # Java (Básico)
    # Projetos Acadêmicos em plataforma Celular
+ # SQL (Intermediário)
+   # Mysql / SQLITE / PostgreSQL;
+   # Integração com C/C++, Python, Shell e Java;
+   # ORM ( Object-relational mapping )
  
 === Administração ===
  # Administração de Sistemas Linux
- # RedHat/Fedora/Slackware/Debian/Gentoo
+   # RedHat/Fedora/Slackware/Debian/Gentoo
  # Proxy (squid)
  # DNS   (bind)
  # Email (sendmail)
  # Web   (httpd/apache)
+ # Fireall (iptables)
+ # Redes (Intermediário)
+
+== EXPERIÊNCIAS PROFISSIONAIS ==
+
+- Maio/2005 - Março/2007
+AMIXSI - Suporte Técnico Windows/Linux
+
+# Responsável pela administração de serivodres Linux (Proxy/Dns/Email/Firewall)
+# Criação de Scripts para automatizar processos (Shell-Script)
+# Administração de software de controle de rede 
