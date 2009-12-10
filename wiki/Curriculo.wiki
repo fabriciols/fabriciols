@@ -26,9 +26,11 @@ Bacharel em *Ciências da Computação* - Concluído em *2008*.
 
 Projeto *M-FIT*, que implementa um método de realizar automaticamente detecção de transições de um vídeo, utilizando de técnicas de visão computacional.
 
-Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docentes.htm#PSR Paulo Sérgio].
+Orientado pelo Professor Paulo Sérgio.
 
-[http://code.google.com/p/m-fit/ Portal do projeto].
+Portal do projeto:
+
+http://code.google.com/p/m-fit/
 
 *Prêmios*
 
@@ -58,17 +60,17 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
  # SQL (Intermediário)
    # Mysql / SQLITE / PostgreSQL;
    # Integração com C/C++, Python, Shell e Java;
-   # ORM ( Object-relational mapping )
+   # ORM ( Object-relational mapping ).
  
 === Administração ===
- # Administração de Sistemas Linux
-   # RedHat/Fedora/Slackware/Debian/Gentoo
- # Proxy (squid)
- # DNS   (bind)
- # Email (sendmail)
- # Web   (httpd/apache)
- # Fireall (iptables)
- # Redes (Intermediário)
+ # Administração de Sistemas Linux;
+   # RedHat/Fedora/Slackware/Debian/Gentoo;
+ # Proxy (squid);
+ # DNS   (bind);
+ # Email (sendmail);
+ # Web   (httpd/apache);
+ # Fireall (iptables);
+ # Redes (Intermediário).
 
 == EXPERIÊNCIAS PROFISSIONAIS ==
 
@@ -86,8 +88,9 @@ Orientado pelo Professor [http://www.fei.edu.br/mestrado/mestrado_eletrica/docen
 
  # Desenvolvimento de aplicativo de automação comercial (PDV) em C;
  # Experiência com Impressoras Fiscais (ECF);
- # Desenvolvimento de script para instalação de sistema linux básico;
- # Desenvolvimento certificado com CMMI Nivel 2;
+ # Desenvolvimento de script (Shell-Script) para instalação de sistema linux básico;
+ # Desenvolvimento de scripts (Shell-Script) para controle de ambiente operacional em sistema linux;
+ # Desenvolvimento certificado de acrodo com as normas CMMI Nivel 2;
 
 == INFORMAÇÕES PESSOAIS ==
 
