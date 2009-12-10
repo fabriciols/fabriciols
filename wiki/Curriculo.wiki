@@ -96,6 +96,7 @@ Portal do projeto: http://code.google.com/p/m-fit/
  # Preferência pessoal por Linux e suas ferramentas;
  # Participante de várias comunidades/listas de discussão de Software Livre: 
    # VivaoLinux
+     # Criador da comunidade: Sed/Awk/ER - Manipulação de Textos/Strings
    # Underlinux
    # Lista Shell-Script
  # Criação de vários projetos de código aberto (Python)
