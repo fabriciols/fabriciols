@@ -28,9 +28,7 @@ Projeto *M-FIT*, que implementa um método de realizar automaticamente detecçã
 
 Orientado pelo Professor Paulo Sérgio.
 
-Portal do projeto:
-
-http://code.google.com/p/m-fit/
+Portal do projeto: http://code.google.com/p/m-fit/
 
 *Prêmios*
 
