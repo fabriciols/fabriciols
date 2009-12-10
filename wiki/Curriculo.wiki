@@ -16,7 +16,7 @@
 
  * E.T.E Profº Aprígio Gonzaga
 
-Técnico em *Eletrônica* - Concluido em *2003*.
+Técnico em *Eletrônica* - Concluído em *2003*.
 
  * Centro Universitário da *FEI*
 
@@ -88,11 +88,11 @@ Portal do projeto: http://code.google.com/p/m-fit/
  # Experiência com Impressoras Fiscais (ECF);
  # Desenvolvimento de script (Shell-Script) para instalação de sistema linux básico;
  # Desenvolvimento de scripts (Shell-Script) para controle de ambiente operacional em sistema linux;
- # Desenvolvimento certificado de acrodo com as normas CMMI Nivel 2;
+ # Desenvolvimento certificado de acordo com as normas CMMI Nivel 2;
 
 == INFORMAÇÕES PESSOAIS ==
 
- # Proativo, dinâmico, bem informado, criativo, auto-didata;
+ # Proativo, dinâmico, bem informado, criativo e autodidata;
  # Preferência pessoal por Linux e suas ferramentas;
  # Participante de várias comunidades/listas de discussão de Software Livre: 
    # VivaoLinux
